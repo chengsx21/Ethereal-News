@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:text="@string/app_name"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/appNameBackground"
             android:textSize="18sp" />
 
         <Space
@@ -46,9 +46,7 @@
             android:contentDescription="Search"
             android:src="@drawable/ic_search"
             tools:ignore="TouchTargetSizeCheck" />
-
         </LinearLayout>
-
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -56,5 +54,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1" />
-
 </LinearLayout>

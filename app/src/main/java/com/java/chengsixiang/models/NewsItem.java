@@ -1,13 +1,13 @@
-package com.java.chengsixiang;
+package com.java.chengsixiang.models;
 
-public class News {
+public class NewsItem {
     String title;
     String content;
     String date;
     String author;
     String url;
 
-    public News() {
+    public NewsItem() {
         this.title = "Fake News";
         this.content = "Fake content";
         this.date = "Fake date";
@@ -15,7 +15,7 @@ public class News {
         this.url = "https://s2.loli.net/2023/08/15/K54zSXytBfVcnZm.png";
     }
 
-    public News(String title, String content, String date, String author, String url) {
+    public NewsItem(String title, String content, String date, String author, String url) {
         this.title = title;
         this.content = content;
         this.date = date;

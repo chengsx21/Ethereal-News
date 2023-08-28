@@ -3,25 +3,24 @@ package com.java.chengsixiang;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
+
+import com.java.chengsixiang.models.NewsAdapter;
+import com.java.chengsixiang.models.NewsItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class NewsIndexActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private NewsAdapter mNewsAdapter;
-    private List<News> mList;
+    private List<NewsItem> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.news_index_activity);
 
         mRecyclerView = findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -32,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData(){
-        mList = new ArrayList<News>();
+        mList = new ArrayList<NewsItem>();
         for (int i = 0; i < 20; i++){
-            mList.add(new News());
+            mList.add(new NewsItem());
         }
     }
 
