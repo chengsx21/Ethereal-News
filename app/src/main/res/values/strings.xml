@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Ethereal News</string>
+    <string name="title_activity_main">Ethereal News</string>
+    <string name="news_author">Ethereal News</string>
+    <string name="news_title">This is a piece of News</string>
+</resources>
