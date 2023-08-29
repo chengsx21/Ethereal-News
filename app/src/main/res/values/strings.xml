@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Ethereal News</string>
     <string name="title_activity_main">Ethereal News</string>
-    <string name="news_author">Ethereal News</string>
+    <string name="news_author">China Daily</string>
     <string name="news_title">This is a piece of News</string>
+    <string name="news_date">2020-01-01</string>
+    <string name="news_content">This is the official community for Genshin Impact, the latest open-world action RPG from HoYoverse. The game features a massive, gorgeous map, an elaborate elemental combat system, engaging storyline &amp; characters, co-op game mode, soothing soundtrack, and much more for you to explore!</string>
 </resources>

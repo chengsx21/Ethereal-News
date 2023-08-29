@@ -1,29 +1,35 @@
 package com.java.chengsixiang.models;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.java.chengsixiang.NewsDetailActivity;
 import com.java.chengsixiang.R;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    // 获取从 activity 中传递过来每个 item 的数据集合
     private Context mContext;
     private List<NewsItem> mNews;
+    private FragmentManager fragmentManager;
 
-    // 构造函数
-    public NewsAdapter(Context context, List<NewsItem> list){
+    public NewsAdapter(Context context, List<NewsItem> list, FragmentManager fragmentManager){
         this.mContext = context;
         this.mNews = list;
+        this.fragmentManager = fragmentManager;
     }
 
-    // 创建View
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item, parent, false);
@@ -32,15 +38,29 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof NewsHolder) {
-            ((NewsHolder) holder).tv_title.setText(mNews.get(position).title);
-            ((NewsHolder) holder).tv_author.setText(mNews.get(position).content);
-            GlideApp.with(mContext).load(mNews.get(position).url).into(((NewsHolder)holder).iv);
-        }
-        return;
+        NewsItem newsItem = mNews.get(position);
+        ((NewsHolder) holder).tv_title.setText(newsItem.title);
+        ((NewsHolder) holder).tv_author.setText(newsItem.author);
+        GlideApp.with(mContext).load(newsItem.url).into(((NewsHolder) holder).iv);
+        holder.itemView.setClickable(true);
+
+        ((NewsHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, NewsDetailActivity.class);
+                Bundle bundle = new Bundle();
+
+                bundle.putString("title", newsItem.title);
+                bundle.putString("content", newsItem.content);
+                bundle.putString("date", newsItem.date);
+                bundle.putString("author", newsItem.author);
+                bundle.putString("url", newsItem.url);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
-    // 加载 RecyclerView 中的每个 item 的布局
     class NewsHolder extends RecyclerView.ViewHolder{
         TextView tv_title;
         TextView tv_author;

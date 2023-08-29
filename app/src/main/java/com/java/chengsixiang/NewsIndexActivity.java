@@ -26,7 +26,7 @@ public class NewsIndexActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         initData();
-        mNewsAdapter = new NewsAdapter(this, mList);
+        mNewsAdapter = new NewsAdapter(this, mList, getSupportFragmentManager());
         mRecyclerView.setAdapter(mNewsAdapter);
     }
 
