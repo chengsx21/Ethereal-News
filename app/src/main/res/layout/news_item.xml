@@ -39,6 +39,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="@string/news_title"
+                android:textStyle="bold"
                 android:textColor="@color/newsTitleBackground"
                 android:textSize="18sp" />
 
@@ -51,7 +52,22 @@
                 android:maxLines="1"
                 android:text="@string/news_author"
                 android:textColor="@color/newsAuthorBackground"
-                android:textSize="10sp"
+                android:textStyle="italic"
+                android:textSize="12sp"
+                tools:ignore="SmallSp"/>
+
+            <TextView
+                android:id="@+id/news_item_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/news_date"
+                android:textColor="@color/newsAuthorBackground"
+                android:textStyle="italic"
+                android:textSize="12sp"
                 tools:ignore="SmallSp"/>
         </RelativeLayout>
     </LinearLayout>

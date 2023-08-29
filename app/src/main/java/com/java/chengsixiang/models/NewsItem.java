@@ -1,6 +1,8 @@
 package com.java.chengsixiang.models;
 
-public class NewsItem {
+import java.io.Serializable;
+
+public class NewsItem implements Serializable {
     String title;
     String content;
     String date;
@@ -8,10 +10,10 @@ public class NewsItem {
     String url;
 
     public NewsItem() {
-        this.title = "Fake News";
-        this.content = "Fake content";
-        this.date = "Fake date";
-        this.author = "Fake author";
+        this.title = "Come and Enjoy Genshin Impact!";
+        this.content = "This is the official community for Genshin Impact, the latest open-world action RPG from HoYoverse. The game features a massive, gorgeous map, an elaborate elemental combat system, engaging storyline &amp; characters, co-op game mode, soothing soundtrack, and much more for you to explore!";
+        this.date = "2021.8.15";
+        this.author = "Genshin Impact";
         this.url = "https://s2.loli.net/2023/08/15/K54zSXytBfVcnZm.png";
     }
 
