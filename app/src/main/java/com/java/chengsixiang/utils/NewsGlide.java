@@ -1,4 +1,4 @@
-package com.java.chengsixiang.models;
+package com.java.chengsixiang.utils;
 
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.module.AppGlideModule;

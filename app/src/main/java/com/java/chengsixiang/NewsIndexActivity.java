@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
-import com.java.chengsixiang.models.NewsAdapter;
-import com.java.chengsixiang.models.NewsItem;
+import com.java.chengsixiang.utils.NewsAdapter;
+import com.java.chengsixiang.utils.NewsItem;
 
 import java.util.ArrayList;
 import java.util.List;
