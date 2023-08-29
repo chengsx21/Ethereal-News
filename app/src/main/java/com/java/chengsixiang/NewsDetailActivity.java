@@ -2,12 +2,10 @@ package com.java.chengsixiang;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.java.chengsixiang.models.NewsItem;
-import com.java.chengsixiang.models.GlideApp;
+import com.java.chengsixiang.utils.GlideApp;
 
 public class NewsDetailActivity extends Activity {
     @Override
