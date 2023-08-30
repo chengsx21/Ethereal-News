@@ -11,7 +11,7 @@ import com.java.chengsixiang.utils.NewsQueryHelper;
 import java.util.Objects;
 
 public class SearchResultActivity extends AppCompatActivity {
-    private String defaultSize = "20";
+    private final String defaultSize = "20";
     private String words;
     private String startDate;
     private String endDate;
@@ -40,11 +40,6 @@ public class SearchResultActivity extends AppCompatActivity {
             categories = "";
         }
         NewsQueryHelper newsHelper = new NewsQueryHelper();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                newsHelper.queryNews(defaultSize, startDate, endDate, words, categories);
-            }
-        }).start();
+        new Thread(() -> newsHelper.queryNews(defaultSize, startDate, endDate, words, categories)).start();
     }
 }
