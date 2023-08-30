@@ -9,10 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.java.chengsixiang.NewsDetailActivity;
+import com.java.chengsixiang.DetailActivity;
 import com.java.chengsixiang.R;
 
 import java.util.List;
@@ -20,14 +21,13 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private List<NewsItem> mNews;
-    private FragmentManager fragmentManager;
 
-    public NewsAdapter(Context context, List<NewsItem> list, FragmentManager fragmentManager){
+    public NewsAdapter(Context context, List<NewsItem> list){
         this.mContext = context;
         this.mNews = list;
-        this.fragmentManager = fragmentManager;
     }
 
+    @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item, parent, false);
@@ -42,20 +42,17 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         GlideApp.with(mContext).load(newsItem.url).into(((NewsHolder) holder).iv);
         holder.itemView.setClickable(true);
 
-        ((NewsHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, NewsDetailActivity.class);
-                Bundle bundle = new Bundle();
+        ((NewsHolder) holder).itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(mContext, DetailActivity.class);
+            Bundle bundle = new Bundle();
 
-                bundle.putString("title", newsItem.title);
-                bundle.putString("content", newsItem.content);
-                bundle.putString("date", newsItem.date);
-                bundle.putString("author", newsItem.author);
-                bundle.putString("url", newsItem.url);
-                intent.putExtras(bundle);
-                mContext.startActivity(intent);
-            }
+            bundle.putString("title", newsItem.title);
+            bundle.putString("content", newsItem.content);
+            bundle.putString("date", newsItem.date);
+            bundle.putString("author", newsItem.author);
+            bundle.putString("url", newsItem.url);
+            intent.putExtras(bundle);
+            mContext.startActivity(intent);
         });
     }
 
