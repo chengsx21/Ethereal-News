@@ -34,6 +34,7 @@ public class DetailActivity extends Activity {
 
     public void setView() {
         Bundle bundle = this.getIntent().getExtras();
+        assert bundle != null;
         mTitle.setText(bundle.getString("title"));
         mAuthor.setText(bundle.getString("author"));
         mDate.setText(bundle.getString("date"));

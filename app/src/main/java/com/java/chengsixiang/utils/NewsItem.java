@@ -1,13 +1,15 @@
 package com.java.chengsixiang.utils;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class NewsItem implements Serializable {
-    String title;
-    String content;
-    String date;
-    String author;
-    String url;
+    private String title;
+    private String content;
+    private String date;
+    private String author;
+    private String url;
 
     public NewsItem() {
         this.title = "Come and Enjoy Genshin Impact!";
@@ -65,6 +67,7 @@ public class NewsItem implements Serializable {
         this.url = url;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "News{" +
@@ -74,13 +77,5 @@ public class NewsItem implements Serializable {
                 ", author='" + author + '\'' +
                 ", url='" + url + '\'' +
                 '}';
-    }
-
-    public String toHtml() {
-        return "<h1>" + title + "</h1>" +
-                "<p>" + content + "</p>" +
-                "<p>" + date + "</p>" +
-                "<p>" + author + "</p>" +
-                "<p>" + url + "</p>";
     }
 }
