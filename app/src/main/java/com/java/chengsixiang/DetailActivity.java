@@ -2,11 +2,14 @@ package com.java.chengsixiang;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.java.chengsixiang.utils.GlideApp;
+
+import java.util.Objects;
 
 public class DetailActivity extends Activity {
     private TextView mTitle;
@@ -39,7 +42,12 @@ public class DetailActivity extends Activity {
         mAuthor.setText(bundle.getString("author"));
         mDate.setText(bundle.getString("date"));
         mContent.setText(bundle.getString("content"));
-        GlideApp.with(this).load(bundle.getString("url")).into(mImage);
+        String url = bundle.getString("url");
+        if (Objects.requireNonNull(url).equals("")) {
+            mImage.setVisibility(View.GONE);
+        } else {
+            GlideApp.with(this).load(bundle.getString("url")).into(mImage);
+        }
     }
 
     public void setBackButton() {

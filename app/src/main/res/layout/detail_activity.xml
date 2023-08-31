@@ -10,8 +10,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="12"
+        android:layout_height="60dp"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
@@ -43,8 +42,7 @@
         android:id="@+id/scroll_view"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,10 +52,10 @@
             <ImageView
                 android:id="@+id/news_detail_image"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="230dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_launcher_foreground"
-                tools:ignore="ImageContrastCheck"
+                android:visibility="visible"
                 android:contentDescription="news_detail_image" />
 
             <TextView
@@ -95,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="@string/news_date"
-                    android:textColor="#8D6E63"
+                    android:textColor="@color/newsDateBackground"
                     android:textSize="12sp"
                     android:textStyle="italic" />
             </LinearLayout>
