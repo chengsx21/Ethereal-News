@@ -5,6 +5,7 @@
     <color name="launcherBackground">#0A4774</color>
     <color name="newsTitleBackground">#222222</color>
     <color name="newsAuthorBackground">#BFBFBF</color>
+    <color name="newsDateBackground">#BFBFBF</color>
     <color name="newsContentBackground">#000000</color>
     <color name="newsSpinnerBackground">#FFFFFF</color>
 </resources>

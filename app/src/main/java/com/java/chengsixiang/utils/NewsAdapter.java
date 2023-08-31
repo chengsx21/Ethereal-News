@@ -1,5 +1,6 @@
 package com.java.chengsixiang.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,11 +35,17 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         NewsItem newsItem = mNews.get(position);
         ((NewsHolder) holder).tv_title.setText(newsItem.getTitle());
         ((NewsHolder) holder).tv_author.setText(newsItem.getAuthor());
-        GlideApp.with(mContext).load(newsItem.getUrl()).into(((NewsHolder) holder).iv);
+        ((NewsHolder) holder).tv_date.setText(newsItem.getDate());
+        String url = newsItem.getUrl();
+        if (url.equals("")) {
+            ((NewsHolder) holder).iv.setVisibility(View.GONE);
+        } else {
+            GlideApp.with(mContext).load(newsItem.getUrl()).into(((NewsHolder) holder).iv);
+        }
         holder.itemView.setClickable(true);
 
         holder.itemView.setOnClickListener(view -> {
@@ -55,15 +62,24 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void setNewsItems(List<NewsItem> newNewsItems) {
+        mNews.clear();
+        mNews.addAll(newNewsItems);
+        notifyDataSetChanged();
+    }
+
     static class NewsHolder extends RecyclerView.ViewHolder{
         TextView tv_title;
         TextView tv_author;
+        TextView tv_date;
         ImageView iv;
 
         public NewsHolder(View itemView) {
             super(itemView);
             tv_title = itemView.findViewById(R.id.news_item_title);
             tv_author = itemView.findViewById(R.id.news_item_author);
+            tv_date = itemView.findViewById(R.id.news_item_date);
             iv = itemView.findViewById(R.id.news_item_image);
         }
     }

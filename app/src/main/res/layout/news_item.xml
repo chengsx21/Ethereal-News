@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:layout_marginTop="5dp"
@@ -12,63 +12,56 @@
     android:padding="10dp"
     android:background="@drawable/ic_card_background">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/news_item_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="230dp"
+        android:layout_marginBottom="10dp"
+        android:scaleType="centerCrop"
+        android:visibility="visible"
+        android:src="@drawable/ic_launcher_foreground"/>
 
-        <ImageView
-            android:id="@+id/news_item_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:layout_marginBottom="10dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_foreground"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="11">
+        <TextView
+            android:id="@+id/news_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@string/news_title"
+            android:textStyle="bold"
+            android:textColor="@color/newsTitleBackground"
+            android:textSize="16dp" />
 
-            <TextView
-                android:id="@+id/news_item_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="@string/news_title"
-                android:textStyle="bold"
-                android:textColor="@color/newsTitleBackground"
-                android:textSize="18sp" />
+        <TextView
+            android:id="@+id/news_item_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/news_author"
+            android:textColor="@color/newsAuthorBackground"
+            android:textSize="12dp"
+            android:textStyle="italic"
+            tools:ignore="TextSizeCheck" />
 
-            <TextView
-                android:id="@+id/news_item_author"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@string/news_author"
-                android:textColor="@color/newsAuthorBackground"
-                android:textStyle="italic"
-                android:textSize="12sp"
-                tools:ignore="SmallSp"/>
-
-            <TextView
-                android:id="@+id/news_item_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@string/news_date"
-                android:textColor="@color/newsAuthorBackground"
-                android:textStyle="italic"
-                android:textSize="12sp"
-                tools:ignore="SmallSp"/>
-        </RelativeLayout>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/news_item_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/news_date"
+            android:textColor="@color/newsAuthorBackground"
+            android:textSize="12dp"
+            android:textStyle="italic"
+            tools:ignore="TextSizeCheck" />
+    </RelativeLayout>
 </LinearLayout>

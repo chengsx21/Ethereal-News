@@ -36,10 +36,7 @@ public class SearchResultActivity extends AppCompatActivity {
         if (Objects.equals(endDate, "默认为当前时间")) {
             endDate = "";
         }
-        if (Objects.equals(categories, "全部")) {
-            categories = "";
-        }
         NewsQueryHelper newsHelper = new NewsQueryHelper();
-        new Thread(() -> newsHelper.queryNews(defaultSize, startDate, endDate, words, categories)).start();
+//        new Thread(() -> newsHelper.queryNews(defaultSize, startDate, endDate, words, categories)).start();
     }
 }
