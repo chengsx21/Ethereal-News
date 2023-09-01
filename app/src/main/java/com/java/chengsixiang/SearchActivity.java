@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,27 +55,27 @@ public class SearchActivity extends AppCompatActivity {
     private void setStartDateTime() {
         startDateTime = findViewById(R.id.selected_date_time_1);
         Button datePicker = findViewById(R.id.date_picker_button_1);
-        datePicker.setOnClickListener(v -> showDatePickerDialog(startDateTime, startCalendar));
+        datePicker.setOnClickListener(v -> showDatePicker(startDateTime, startCalendar));
         Button timePicker = findViewById(R.id.time_picker_button_1);
-        timePicker.setOnClickListener(v -> showTimePickerDialog(startDateTime, startCalendar));
+        timePicker.setOnClickListener(v -> showTimePicker(startDateTime, startCalendar));
     }
 
     private void setEndDateTime() {
         endDateTime = findViewById(R.id.selected_date_time_2);
         Button datePicker = findViewById(R.id.date_picker_button_2);
-        datePicker.setOnClickListener(v -> showDatePickerDialog(endDateTime, endCalendar));
+        datePicker.setOnClickListener(v -> showDatePicker(endDateTime, endCalendar));
         Button timePicker = findViewById(R.id.time_picker_button_2);
-        timePicker.setOnClickListener(v -> showTimePickerDialog(endDateTime, endCalendar));
+        timePicker.setOnClickListener(v -> showTimePicker(endDateTime, endCalendar));
     }
 
-    private void showDatePickerDialog(TextView selectedDateTime, Calendar calendar) {
+    private void showDatePicker(TextView selectedDateTime, Calendar calendar) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
                 (view, year, month, dayOfMonth) -> {
                     calendar.set(Calendar.YEAR, year);
                     calendar.set(Calendar.MONTH, month);
                     calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                    updateSelectedDateTime(selectedDateTime, calendar);
+                    updateTime(selectedDateTime, calendar);
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -85,13 +84,13 @@ public class SearchActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    private void showTimePickerDialog(TextView selectedDateTime, Calendar calendar) {
+    private void showTimePicker(TextView selectedDateTime, Calendar calendar) {
         TimePickerDialog timePickerDialog = new TimePickerDialog(
                 this,
                 (view, hourOfDay, minute) -> {
                     calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                     calendar.set(Calendar.MINUTE, minute);
-                    updateSelectedDateTime(selectedDateTime, calendar);
+                    updateTime(selectedDateTime, calendar);
                 },
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
@@ -100,9 +99,13 @@ public class SearchActivity extends AppCompatActivity {
         timePickerDialog.show();
     }
 
-    private void updateSelectedDateTime(TextView selectedDateTime, Calendar calendar) {
+    private void updateTime(TextView selectedDateTime, Calendar calendar) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         selectedDateTime.setText(dateFormat.format(calendar.getTime()));
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     private void setSubmitButton() {
@@ -122,23 +125,18 @@ public class SearchActivity extends AppCompatActivity {
                 showToast("搜索起始时间不能晚于截止时间");
                 return;
             }
+            if (endCalendar.compareTo(Calendar.getInstance()) > 0) {
+                showToast("搜索截止时间不能晚于当前时间");
+                return;
+            }
             Bundle bundle = new Bundle();
-            startSearchResultActivity(bundle);
+            bundle.putString("words", searchText.getText().toString());
+            bundle.putString("startDate", startDateTime.getText().toString());
+            bundle.putString("endDate", endDateTime.getText().toString());
+            bundle.putString("categories", ((Spinner) findViewById(R.id.news_category_spinner)).getSelectedItem().toString());
+            Intent intent = new Intent(SearchActivity.this, ResultActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
         });
-    }
-
-    private void startSearchResultActivity(Bundle bundle) {
-        bundle.putString("words", searchText.getText().toString());
-        bundle.putString("startDate", startDateTime.getText().toString());
-        bundle.putString("endDate", endDateTime.getText().toString());
-        bundle.putString("categories", ((Spinner) findViewById(R.id.news_category_spinner)).getSelectedItem().toString());
-        Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
-        intent.putExtras(bundle);
-        Log.d("SearchActivity", bundle.toString());
-        startActivity(intent);
-    }
-
-    private void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

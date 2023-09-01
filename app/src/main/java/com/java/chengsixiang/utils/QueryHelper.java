@@ -19,7 +19,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class NewsQueryHelper {
+public class QueryHelper {
     private final OkHttpClient client = new OkHttpClient();
 
     public interface NewsQueryCallback {
@@ -37,14 +37,12 @@ public class NewsQueryHelper {
 
         String apiUrl = String.format("https://api2.newsminer.net/svc/news/queryNewsList?size=%s&startDate=%s&endDate=%s&words=%s&categories=%s", size, startDate, endDate, words, categories);
         Request request = new Request.Builder().url(apiUrl).build();
-
+        Log.d("NewsQueryHelper", apiUrl);
         new Thread(() -> {
             try {
                 Response response = client.newCall(request).execute();
                 if (response.isSuccessful()) {
                     String resData = response.body().string();
-                    Log.d("NewsQueryHelper", resData);
-
                     JsonParser jsonParser = new JsonParser();
                     JsonObject jsonObject = jsonParser.parse(resData).getAsJsonObject();
                     JsonArray dataArray = jsonObject.getAsJsonArray("data");
@@ -58,6 +56,7 @@ public class NewsQueryHelper {
                         String author = newsObject.get("publisher").getAsString();
                         String urlArray = newsObject.get("image").getAsString();
                         String url = "";
+                        // TODO: Finish newsID and videoID!!
                         Pattern pattern = Pattern.compile("http[^,\\]]+");
                         Matcher matcher = pattern.matcher(urlArray);
                         if (matcher.find()) {
@@ -83,9 +82,16 @@ public class NewsQueryHelper {
         }).start();
     }
 
-    public String getCurrentTime() {
+    public static String getCurrentTime() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return now.format(formatter);
+    }
+
+    public static String getTimeBefore(String currentTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(currentTime, formatter);
+        LocalDateTime newDateTime = dateTime.minusSeconds(1);
+        return newDateTime.format(formatter);
     }
 }
