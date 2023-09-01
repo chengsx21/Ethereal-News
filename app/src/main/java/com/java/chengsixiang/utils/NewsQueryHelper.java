@@ -36,7 +36,6 @@ public class NewsQueryHelper {
         }
 
         String apiUrl = String.format("https://api2.newsminer.net/svc/news/queryNewsList?size=%s&startDate=%s&endDate=%s&words=%s&categories=%s", size, startDate, endDate, words, categories);
-        Log.d("NewsQueryHelper", apiUrl);
         Request request = new Request.Builder().url(apiUrl).build();
 
         new Thread(() -> {
@@ -63,17 +62,14 @@ public class NewsQueryHelper {
                         Matcher matcher = pattern.matcher(urlArray);
                         if (matcher.find()) {
                             url = matcher.group();
-                            Log.d("NewsQueryHelper", "url:" + url);
                         }
                         NewsItem newsItem = new NewsItem(title, content, date, author, url);
                         newsItems.add(newsItem);
                     }
-
                     if (callback != null) {
                         callback.onSuccess(newsItems);
                     }
                 } else {
-                    Log.d("NewsQueryHelper", "Failed to get news data");
                     if (callback != null) {
                         callback.onFailure("Failed to get news data");
                     }

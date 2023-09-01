@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.java.chengsixiang.R;
 
@@ -33,7 +35,7 @@ public class NewsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_news, container, false);
+        View rootView = inflater.inflate(R.layout.news_fragment, container, false);
         int categoryPosition = getArguments().getInt("position");
 
         RecyclerView recyclerView = rootView.findViewById(R.id.tab_recycler_view);
@@ -41,6 +43,13 @@ public class NewsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         NewsAdapter newsAdapter = new NewsAdapter(getContext(), new ArrayList<>());
         recyclerView.setAdapter(newsAdapter);
+
+        SwipeRefreshLayout refreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        refreshLayout.setOnRefreshListener(() -> {
+            Log.d("NewsFragment", "refresh");
+            loadNewsForCategory(categoryPosition, newsAdapter);
+            refreshLayout.setRefreshing(false);
+        });
 
         loadNewsForCategory(categoryPosition, newsAdapter);
         return rootView;
