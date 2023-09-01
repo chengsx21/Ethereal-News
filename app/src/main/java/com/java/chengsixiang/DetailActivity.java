@@ -46,6 +46,7 @@ public class DetailActivity extends Activity {
         if (Objects.requireNonNull(url).equals("")) {
             mImage.setVisibility(View.GONE);
         } else {
+            mImage.setVisibility(View.VISIBLE);
             GlideApp.with(this).load(bundle.getString("url")).into(mImage);
         }
     }

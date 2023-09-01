@@ -17,7 +17,7 @@
         android:theme="@style/Theme.EtherealNews"
         tools:targetApi="31">
         <activity
-            android:name=".IndexActivity"
+            android:name=".HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +33,7 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".SearchResultActivity"
+            android:name=".ResultActivity"
             android:exported="true">
         </activity>
     </application>

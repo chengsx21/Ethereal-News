@@ -1,6 +1,5 @@
 package com.java.chengsixiang.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,14 +43,17 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (url.equals("")) {
             ((NewsHolder) holder).iv.setVisibility(View.GONE);
         } else {
-            GlideApp.with(mContext).load(newsItem.getUrl()).into(((NewsHolder) holder).iv);
+            ((NewsHolder) holder).iv.setVisibility(View.VISIBLE);
+            GlideApp.with(mContext)
+                    .load(newsItem.getUrl())
+                    .centerCrop() // 缩放类型
+                    .into(((NewsHolder) holder).iv);
         }
         holder.itemView.setClickable(true);
 
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, DetailActivity.class);
             Bundle bundle = new Bundle();
-
             bundle.putString("title", newsItem.getTitle());
             bundle.putString("content", newsItem.getContent());
             bundle.putString("date", newsItem.getDate());
@@ -62,11 +64,20 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         });
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     public void setNewsItems(List<NewsItem> newNewsItems) {
         mNews.clear();
         mNews.addAll(newNewsItems);
         notifyDataSetChanged();
+    }
+
+    public void addNewsItems(List<NewsItem> newNewsItems) {
+        mNews.addAll(newNewsItems);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemCount() {
+        return mNews.size();
     }
 
     static class NewsHolder extends RecyclerView.ViewHolder{
@@ -82,10 +93,5 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             tv_date = itemView.findViewById(R.id.news_item_date);
             iv = itemView.findViewById(R.id.news_item_image);
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        return mNews.size();
     }
 }
