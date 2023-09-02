@@ -6,8 +6,13 @@
     <string name="news_date">2020–01-01</string>
     <string name="news_content">This is the official community for Genshin Impact!</string>
     <string name="news_toolbar">News</string>
+    <string name="news_image">News Image</string>
     <string name="news_detail_toolbar">News Detail</string>
     <string name="news_result_toolbar">Search Results</string>
+    <string name="back_button">Back</string>
+    <string name="history_button">History</string>
+    <string name="favorite_button">Favorite</string>
+    <string name="search_button">Search</string>
     <string-array name="news_categories">
         <item>全部</item>
         <item>娱乐</item>

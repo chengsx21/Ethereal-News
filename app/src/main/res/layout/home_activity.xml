@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:contentDescription="Favorite"
+                android:contentDescription="@string/favorite_button"
                 android:src="@drawable/ic_favorite"
                 tools:ignore="TouchTargetSizeCheck" />
 
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:contentDescription="History"
+                android:contentDescription="@string/history_button"
                 android:src="@drawable/ic_history"
                 tools:ignore="TouchTargetSizeCheck" />
 
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:contentDescription="Search"
+                android:contentDescription="@string/search_button"
                 android:src="@drawable/ic_search"
                 tools:ignore="TouchTargetSizeCheck" />
 
@@ -88,7 +88,7 @@
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="tab content for news" />
+            android:contentDescription="@string/news_content" />
 
     </LinearLayout>
 
