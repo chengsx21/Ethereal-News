@@ -65,5 +65,7 @@
             android:textSize="12sp"
             android:textStyle="italic"
             tools:ignore="RelativeOverlap" />
+
     </RelativeLayout>
+
 </LinearLayout>

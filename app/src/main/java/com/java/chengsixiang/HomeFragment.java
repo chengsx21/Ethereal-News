@@ -7,9 +7,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -31,6 +33,7 @@ public class HomeFragment extends Fragment {
     private String mEndDate;
     private boolean mFullLoaded;
     private View rootView;
+    private ProgressBar mProgressBar;
     private NewsAdapter newsAdapter;
     private ListScrollListener newsScrollListener;
 
@@ -50,6 +53,9 @@ public class HomeFragment extends Fragment {
         setRecyclerView();
         setSwipeRefreshView();
         initNewsForCategory();
+
+        mProgressBar = rootView.findViewById(R.id.progress_bar);
+
         return rootView;
     }
 
@@ -63,7 +69,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onLoadMore(int currentPage) {
                 if (!mFullLoaded) {
-                    loadNewsForCategory();
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    new Handler().postDelayed(() -> {
+                        loadNewsForCategory();
+                        mProgressBar.setVisibility(View.GONE);
+                    }, 500);
                 }
             }
         };

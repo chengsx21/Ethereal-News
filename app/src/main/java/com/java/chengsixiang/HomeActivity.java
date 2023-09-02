@@ -16,6 +16,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
         setTabLayout();
+        setSettingButton();
         setSearchButton();
     }
 
@@ -25,6 +26,14 @@ public class HomeActivity extends AppCompatActivity {
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    private void setSettingButton() {
+        ImageButton mSettingButton = findViewById(R.id.setting_button);
+        mSettingButton.setOnClickListener(view -> {
+            Intent intent = new Intent(HomeActivity.this, CategoryActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void setSearchButton() {

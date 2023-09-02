@@ -9,8 +9,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.java.chengsixiang.HomeFragment;
 
 public class PagerAdapter extends FragmentPagerAdapter {
-    private static final int NUM_PAGES = 11;
-    private static final String[] CATEGORY_NAMES = {"全部", "娱乐", "军事", "教育", "文化", "健康", "财经", "体育", "汽车", "科技", "社会"};
+    private static int NUM_PAGES = 11;
+    private static String[] CATEGORY_NAMES = {"全部", "娱乐", "军事", "教育", "文化", "健康", "财经", "体育", "汽车", "科技", "社会"};
 
     public PagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
