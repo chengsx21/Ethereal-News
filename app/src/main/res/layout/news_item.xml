@@ -19,7 +19,8 @@
         android:layout_marginBottom="10dp"
         android:scaleType="centerCrop"
         android:visibility="visible"
-        android:src="@drawable/ic_launcher_foreground"/>
+        android:src="@drawable/ic_launcher_foreground"
+        android:contentDescription="@string/news_content" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -33,9 +34,10 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:text="@string/news_title"
-            android:textStyle="bold"
             android:textColor="@color/newsTitleBackground"
-            android:textSize="16dp" />
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:ignore="TextSizeCheck" />
 
         <TextView
             android:id="@+id/news_item_author"
@@ -46,7 +48,7 @@
             android:maxLines="1"
             android:text="@string/news_author"
             android:textColor="@color/newsAuthorBackground"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:textStyle="italic"
             tools:ignore="TextSizeCheck" />
 
@@ -54,14 +56,14 @@
             android:id="@+id/news_item_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/news_date"
             android:textColor="@color/newsAuthorBackground"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:textStyle="italic"
-            tools:ignore="TextSizeCheck" />
+            tools:ignore="RelativeOverlap" />
     </RelativeLayout>
 </LinearLayout>
