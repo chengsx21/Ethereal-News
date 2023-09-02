@@ -36,6 +36,7 @@
             android:textColor="@color/appNameBackground"
             android:textSize="18sp"
             android:layout_gravity="center_horizontal"/>
+
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
