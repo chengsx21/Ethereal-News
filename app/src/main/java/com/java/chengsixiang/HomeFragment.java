@@ -70,10 +70,10 @@ public class HomeFragment extends Fragment {
             public void onLoadMore(int currentPage) {
                 if (!mFullLoaded) {
                     mProgressBar.setVisibility(View.VISIBLE);
+                    loadNewsForCategory();
                     new Handler().postDelayed(() -> {
-                        loadNewsForCategory();
                         mProgressBar.setVisibility(View.GONE);
-                    }, 500);
+                    }, 600);
                 }
             }
         };
