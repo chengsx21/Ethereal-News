@@ -17,6 +17,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.home_activity);
         setTabLayout();
         setSettingButton();
+        setFavoriteButton();
+        setHistoryButton();
         setSearchButton();
     }
 
@@ -32,6 +34,22 @@ public class HomeActivity extends AppCompatActivity {
         ImageButton mSettingButton = findViewById(R.id.setting_button);
         mSettingButton.setOnClickListener(view -> {
             Intent intent = new Intent(HomeActivity.this, CategoryActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    private void setFavoriteButton() {
+        ImageButton mFavoriteButton = findViewById(R.id.favorite_button);
+        mFavoriteButton.setOnClickListener(view -> {
+            Intent intent = new Intent(HomeActivity.this, FavoriteActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    private void setHistoryButton() {
+        ImageButton mHistoryButton = findViewById(R.id.history_button);
+        mHistoryButton.setOnClickListener(view -> {
+            Intent intent = new Intent(HomeActivity.this, HistoryActivity.class);
             startActivity(intent);
         });
     }

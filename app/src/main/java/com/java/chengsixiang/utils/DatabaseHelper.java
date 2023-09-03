@@ -1,15 +1,14 @@
 package com.java.chengsixiang.utils;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "newsDatabase.db";
@@ -93,4 +92,67 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rowId;
     }
 
+    public long deleteFavoriteRecord(String newsID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        long rowId = db.delete(TABLE_NAME_FAVORTIE, COLUMN_NEWS_ID + " = ?", new String[] { newsID });
+        db.close();
+        return rowId;
+    }
+
+    @SuppressLint("Range")
+    public List<NewsItem> getRecord(String tableName, String columnDate) {
+        List<NewsItem> newsItems = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {
+                COLUMN_ID,
+                COLUMN_TITLE,
+                COLUMN_AUTHOR,
+                COLUMN_DATE,
+                columnDate,
+                COLUMN_CONTENT,
+                COLUMN_NEWS_ID,
+                COLUMN_IMAGE,
+                COLUMN_VIDEO
+        };
+
+        Cursor cursor = db.query(tableName, columns, null, null, null, null, columnDate + " DESC");
+        if (cursor.moveToFirst()) {
+            do {
+                NewsItem newsItem = new NewsItem();
+                newsItem.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
+                newsItem.setAuthor(cursor.getString(cursor.getColumnIndex(COLUMN_AUTHOR)));
+                newsItem.setDate(cursor.getString(cursor.getColumnIndex(COLUMN_DATE)));
+                newsItem.setContent(cursor.getString(cursor.getColumnIndex(COLUMN_CONTENT)));
+                newsItem.setNewsID(cursor.getString(cursor.getColumnIndex(COLUMN_NEWS_ID)));
+                newsItem.setImageUrl(cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE)));
+                newsItem.setVideoUrl(cursor.getString(cursor.getColumnIndex(COLUMN_VIDEO)));
+                newsItems.add(newsItem);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return newsItems;
+    }
+
+    public List<NewsItem> getHistoryRecord() {
+        return getRecord(TABLE_NAME_HISTORY, COLUMN_READ_DATE);
+    }
+
+    public List<NewsItem> getFavoriteRecord() {
+        return getRecord(TABLE_NAME_FAVORTIE, COLUMN_STAR_DATE);
+    }
+
+    public boolean isNewsIDExists(String newsID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM " + TABLE_NAME_FAVORTIE + " WHERE newsID = ?";
+        Cursor cursor = db.rawQuery(query, new String[] { newsID });
+        int count = 0;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                count = cursor.getInt(0);
+            }
+            cursor.close();
+        }
+        return count > 0;
+    }
 }
