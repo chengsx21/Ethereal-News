@@ -56,15 +56,16 @@ public class QueryHelper {
                         String content = newsObject.get("content").getAsString();
                         String date = newsObject.get("publishTime").getAsString();
                         String author = newsObject.get("publisher").getAsString();
-                        String urlArray = newsObject.get("image").getAsString();
-                        String url = "";
-                        // TODO: Finish newsID and videoID!!
+                        String imageUrlArray = newsObject.get("image").getAsString();
+                        String imageUrl = "";
                         Pattern pattern = Pattern.compile("http[^,\\]]+");
-                        Matcher matcher = pattern.matcher(urlArray);
+                        Matcher matcher = pattern.matcher(imageUrlArray);
                         if (matcher.find()) {
-                            url = matcher.group();
+                            imageUrl = matcher.group();
                         }
-                        NewsItem newsItem = new NewsItem(title, content, date, author, url);
+                        String videoUrl = newsObject.get("video").getAsString();
+                        String newsID = newsObject.get("newsID").getAsString();
+                        NewsItem newsItem = new NewsItem(title, content, date, author, imageUrl, videoUrl, newsID);
                         newsItems.add(newsItem);
                     }
                     if (callback != null) {

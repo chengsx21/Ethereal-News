@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.java.chengsixiang.utils.GlideApp;
+import com.java.chengsixiang.utils.NewsAdapter;
 
 import java.util.Objects;
 
@@ -17,6 +20,7 @@ public class DetailActivity extends Activity {
     private TextView mDate;
     private TextView mContent;
     private ImageView mImage;
+    private VideoView mVideo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,7 @@ public class DetailActivity extends Activity {
         mDate = findViewById(R.id.news_detail_date);
         mContent = findViewById(R.id.news_detail_content);
         mImage = findViewById(R.id.news_detail_image);
+        mVideo = findViewById(R.id.news_detail_video);
     }
 
     public void setView() {
@@ -42,12 +47,26 @@ public class DetailActivity extends Activity {
         mAuthor.setText(bundle.getString("author"));
         mDate.setText(bundle.getString("date"));
         mContent.setText(bundle.getString("content"));
-        String url = bundle.getString("url");
-        if (Objects.requireNonNull(url).equals("")) {
-            mImage.setVisibility(View.GONE);
+        String imageUrl = bundle.getString("imageUrl");
+        String videoUrl = bundle.getString("videoUrl");
+        if (!videoUrl.equals("")) {
+            mVideo.setVisibility(View.VISIBLE);
+            mVideo.setVideoPath(videoUrl);
+            MediaController mediaController = new MediaController(this);
+            mediaController.setAnchorView(mVideo);
+            mVideo.setMediaController(mediaController);
+            mVideo.requestFocus();
         } else {
-            mImage.setVisibility(View.VISIBLE);
-            GlideApp.with(this).load(bundle.getString("url")).into(mImage);
+            mVideo.setVisibility(View.GONE);
+            if (imageUrl.equals("")) {
+                mImage.setVisibility(View.GONE);
+            } else {
+                mImage.setVisibility(View.VISIBLE);
+                GlideApp.with(this)
+                        .load(bundle.getString("imageUrl"))
+                        .centerCrop() // 缩放类型
+                        .into(mImage);
+            }
         }
     }
 

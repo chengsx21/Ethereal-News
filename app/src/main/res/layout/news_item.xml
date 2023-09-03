@@ -18,9 +18,15 @@
         android:layout_height="230dp"
         android:layout_marginBottom="10dp"
         android:scaleType="centerCrop"
-        android:visibility="visible"
-        android:src="@drawable/ic_launcher_foreground"
-        android:contentDescription="@string/news_content" />
+        android:visibility="gone" />
+
+    <VideoView
+        android:id="@+id/news_item_video"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_marginBottom="10dp"
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="match_parent"

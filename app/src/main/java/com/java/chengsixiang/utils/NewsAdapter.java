@@ -1,5 +1,7 @@
 package com.java.chengsixiang.utils;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,16 +43,28 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ((NewsHolder) holder).tv_title.setText(newsItem.getTitle());
         ((NewsHolder) holder).tv_author.setText(newsItem.getAuthor());
         ((NewsHolder) holder).tv_date.setText(newsItem.getDate());
-        String url = newsItem.getUrl();
-        if (url.equals("")) {
-            ((NewsHolder) holder).iv.setVisibility(View.GONE);
+        String imageUrl = newsItem.getImageUrl();
+        String videoUrl = newsItem.getVideoUrl();
+        if (!videoUrl.equals("")) {
+            ((NewsHolder) holder).vv.setVisibility(View.VISIBLE);
+            ((NewsHolder) holder).vv.setVideoPath(videoUrl);
+            MediaController mediaController = new MediaController(mContext);
+            mediaController.setAnchorView(((NewsHolder) holder).vv);
+            ((NewsHolder) holder).vv.setMediaController(mediaController);
+            ((NewsHolder) holder).vv.requestFocus();
         } else {
-            ((NewsHolder) holder).iv.setVisibility(View.VISIBLE);
-            GlideApp.with(mContext)
-                    .load(newsItem.getUrl())
-                    .centerCrop() // 缩放类型
-                    .into(((NewsHolder) holder).iv);
+            ((NewsHolder) holder).vv.setVisibility(View.GONE);
+            if (imageUrl.equals("")) {
+                ((NewsHolder) holder).iv.setVisibility(View.GONE);
+            } else {
+                ((NewsHolder) holder).iv.setVisibility(View.VISIBLE);
+                GlideApp.with(mContext)
+                        .load(newsItem.getImageUrl())
+                        .centerCrop() // 缩放类型
+                        .into(((NewsHolder) holder).iv);
+            }
         }
+
         holder.itemView.setClickable(true);
 
         holder.itemView.setOnClickListener(view -> {
@@ -58,7 +74,9 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             bundle.putString("content", newsItem.getContent());
             bundle.putString("date", newsItem.getDate());
             bundle.putString("author", newsItem.getAuthor());
-            bundle.putString("url", newsItem.getUrl());
+            bundle.putString("imageUrl", newsItem.getImageUrl());
+            bundle.putString("videoUrl", newsItem.getVideoUrl());
+            bundle.putString("newsID", newsItem.getNewsID());
             intent.putExtras(bundle);
             mContext.startActivity(intent);
         });
@@ -85,6 +103,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView tv_author;
         TextView tv_date;
         ImageView iv;
+        VideoView vv;
 
         public NewsHolder(View itemView) {
             super(itemView);
@@ -92,6 +111,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             tv_author = itemView.findViewById(R.id.news_item_author);
             tv_date = itemView.findViewById(R.id.news_item_date);
             iv = itemView.findViewById(R.id.news_item_image);
+            vv = itemView.findViewById(R.id.news_item_video);
         }
     }
 }

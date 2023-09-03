@@ -9,22 +9,28 @@ public class NewsItem implements Serializable {
     private String content;
     private String date;
     private String author;
-    private String url;
+    private String imageUrl;
+    private String videoUrl;
+    private String newsID;
 
     public NewsItem() {
         this.title = "Come and Enjoy Genshin Impact!";
         this.content = "This is the official community for Genshin Impact!";
         this.date = "2023.8.15";
         this.author = "Genshin Impact";
-        this.url = "https://s2.loli.net/2023/08/15/K54zSXytBfVcnZm.png";
+        this.imageUrl = "https://s2.loli.net/2023/08/15/K54zSXytBfVcnZm.png";
+        this.videoUrl = "http://flv3.people.com.cn/dev1/mvideo/vodfiles/2021/09/07/2eb63e58f8c0b6cee1c2c1dde92940ef_c.mp4";
+        this.newsID = "202309310128d5295250654d46928c9a7c8de0b340be";
     }
 
-    public NewsItem(String title, String content, String date, String author, String url) {
+    public NewsItem(String title, String content, String date, String author, String imageUrl, String videoUrl, String newsID) {
         this.title = title;
         this.content = content;
         this.date = date;
         this.author = author;
-        this.url = url;
+        this.imageUrl = imageUrl;
+        this.videoUrl = videoUrl;
+        this.newsID = newsID;
     }
 
     public String getTitle() {
@@ -43,8 +49,16 @@ public class NewsItem implements Serializable {
         return author;
     }
 
-    public String getUrl() {
-        return url;
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public String getNewsID() {
+        return newsID;
     }
 
     public void setTitle(String title) {
@@ -63,19 +77,29 @@ public class NewsItem implements Serializable {
         this.author = author;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setImageUrl(String url) {
+        this.imageUrl = url;
+    }
+
+    public void setVideoUrl(String url) {
+        this.videoUrl = url;
+    }
+
+    public void setNewsID(String id) {
+        this.newsID = id;
     }
 
     @NonNull
     @Override
     public String toString() {
-        return "News{" +
+        return "NewsItem{" +
                 "title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", date='" + date + '\'' +
                 ", author='" + author + '\'' +
-                ", url='" + url + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", videoUrl='" + videoUrl + '\'' +
+                ", newsID='" + newsID + '\'' +
                 '}';
     }
 }
