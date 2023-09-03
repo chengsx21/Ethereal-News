@@ -53,6 +53,9 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void setStartDateTime() {
+        startCalendar.set(Calendar.YEAR, 1);
+        startCalendar.set(Calendar.MONTH, 0);
+        startCalendar.set(Calendar.DAY_OF_MONTH, 1);
         startDateTime = findViewById(R.id.selected_date_time_1);
         Button datePicker = findViewById(R.id.date_picker_button_1);
         datePicker.setOnClickListener(v -> showDatePicker(startDateTime, startCalendar));
