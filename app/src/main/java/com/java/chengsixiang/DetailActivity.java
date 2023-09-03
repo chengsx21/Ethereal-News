@@ -19,11 +19,19 @@ import java.util.Locale;
 
 public class DetailActivity extends Activity {
     private TextView mTitle;
+    private String title;
     private TextView mAuthor;
+    private String author;
     private TextView mDate;
+    private String date;
     private TextView mContent;
+    private String content;
     private ImageView mImage;
+    private String imageUrl;
     private VideoView mVideo;
+    private String videoUrl;
+    private String newsID;
+    private boolean isFavorite;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,6 +39,7 @@ public class DetailActivity extends Activity {
         setContentView(R.layout.detail_activity);
         bindView();
         setView();
+        setFavoriteButton();
         setBackButton();
     }
 
@@ -41,32 +50,24 @@ public class DetailActivity extends Activity {
         mContent = findViewById(R.id.news_detail_content);
         mImage = findViewById(R.id.news_detail_image);
         mVideo = findViewById(R.id.news_detail_video);
+        Bundle bundle = this.getIntent().getExtras();
+        title = bundle.getString("title");
+        author = bundle.getString("author");
+        date = bundle.getString("date");
+        content = bundle.getString("content");
+        newsID = bundle.getString("newsID");
+        imageUrl = bundle.getString("imageUrl");
+        videoUrl = bundle.getString("videoUrl");
+        isFavorite = new DatabaseHelper(this).isNewsIDExists(newsID);
     }
 
     private void setView() {
-        Bundle bundle = this.getIntent().getExtras();
-        String title = bundle.getString("title");
-        String author = bundle.getString("author");
-        String date = bundle.getString("date");
-        String content = bundle.getString("content");
-        String newsID = bundle.getString("newsID");
-        String imageUrl = bundle.getString("imageUrl");
-        String videoUrl = bundle.getString("videoUrl");
         mTitle.setText(title);
         mAuthor.setText(author);
         mDate.setText(date);
         mContent.setText(content);
         bindImageAndVideo(imageUrl, videoUrl);
-
-        String readDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
-        DatabaseHelper dbHelper = new DatabaseHelper(this);
-        long rowId = dbHelper.insertHistoryRecord(title, author, date, readDate, content, newsID, imageUrl, videoUrl);
-        dbHelper.close();
-        if (rowId != -1) {
-            Toast.makeText(this, "保存成功" + rowId, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "保存失败", Toast.LENGTH_SHORT).show();
-        }
+        updateHistoryRecords();
     }
 
     private void bindImageAndVideo(String imageUrl, String videoUrl) {
@@ -94,5 +95,51 @@ public class DetailActivity extends Activity {
     private void setBackButton() {
         ImageButton mBackButton = findViewById(R.id.back_button);
         mBackButton.setOnClickListener(view -> finish());
+    }
+
+    private void setFavoriteButton() {
+        ImageButton mFavoriteButton = findViewById(R.id.favorite_button);
+        if (isFavorite) {
+            mFavoriteButton.setImageResource(R.drawable.ic_favorite_full);
+        } else {
+            mFavoriteButton.setImageResource(R.drawable.ic_favorite);
+        }
+
+        mFavoriteButton.setOnClickListener(view -> {
+            isFavorite = !isFavorite;
+            if (isFavorite) {
+                mFavoriteButton.setImageResource(R.drawable.ic_favorite_full);
+            } else {
+                mFavoriteButton.setImageResource(R.drawable.ic_favorite);
+            }
+            updateFavoriteRecords(isFavorite);
+        });
+    }
+
+    private void updateHistoryRecords() {
+        String readDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        long rowId = dbHelper.insertHistoryRecord(title, author, date, readDate, content, newsID, imageUrl, videoUrl);
+        dbHelper.close();
+        if (rowId == -1) {
+            Toast.makeText(this, "保存历史记录失败", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateFavoriteRecords(boolean isFavorite) {
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        if (isFavorite) {
+            String starDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+            long rowId = dbHelper.insertFavoriteRecord(title, author, date, starDate, content, newsID, imageUrl, videoUrl);
+            dbHelper.close();
+            if (rowId != -1) {
+                Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            dbHelper.deleteFavoriteRecord(newsID);
+            dbHelper.close();
+            Toast.makeText(this, "取消收藏", Toast.LENGTH_SHORT).show();
+        }
+        dbHelper.close();
     }
 }

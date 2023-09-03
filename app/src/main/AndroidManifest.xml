@@ -41,6 +41,14 @@
             android:name=".CategoryActivity"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".FavoriteActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>
