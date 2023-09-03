@@ -7,12 +7,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.java.chengsixiang.utils.GlideApp;
-import com.java.chengsixiang.utils.NewsAdapter;
+import com.java.chengsixiang.utils.DatabaseHelper;
 
-import java.util.Objects;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class DetailActivity extends Activity {
     private TextView mTitle;
@@ -31,7 +34,7 @@ public class DetailActivity extends Activity {
         setBackButton();
     }
 
-    public void bindView() {
+    private void bindView() {
         mTitle = findViewById(R.id.news_detail_title);
         mAuthor = findViewById(R.id.news_detail_author);
         mDate = findViewById(R.id.news_detail_date);
@@ -40,15 +43,33 @@ public class DetailActivity extends Activity {
         mVideo = findViewById(R.id.news_detail_video);
     }
 
-    public void setView() {
+    private void setView() {
         Bundle bundle = this.getIntent().getExtras();
-        assert bundle != null;
-        mTitle.setText(bundle.getString("title"));
-        mAuthor.setText(bundle.getString("author"));
-        mDate.setText(bundle.getString("date"));
-        mContent.setText(bundle.getString("content"));
+        String title = bundle.getString("title");
+        String author = bundle.getString("author");
+        String date = bundle.getString("date");
+        String content = bundle.getString("content");
+        String newsID = bundle.getString("newsID");
         String imageUrl = bundle.getString("imageUrl");
         String videoUrl = bundle.getString("videoUrl");
+        mTitle.setText(title);
+        mAuthor.setText(author);
+        mDate.setText(date);
+        mContent.setText(content);
+        bindImageAndVideo(imageUrl, videoUrl);
+
+        String readDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        long rowId = dbHelper.insertHistoryRecord(title, author, date, readDate, content, newsID, imageUrl, videoUrl);
+        dbHelper.close();
+        if (rowId != -1) {
+            Toast.makeText(this, "保存成功" + rowId, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "保存失败", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void bindImageAndVideo(String imageUrl, String videoUrl) {
         if (!videoUrl.equals("")) {
             mVideo.setVisibility(View.VISIBLE);
             mVideo.setVideoPath(videoUrl);
@@ -63,14 +84,14 @@ public class DetailActivity extends Activity {
             } else {
                 mImage.setVisibility(View.VISIBLE);
                 GlideApp.with(this)
-                        .load(bundle.getString("imageUrl"))
+                        .load(imageUrl)
                         .centerCrop() // 缩放类型
                         .into(mImage);
             }
         }
     }
 
-    public void setBackButton() {
+    private void setBackButton() {
         ImageButton mBackButton = findViewById(R.id.back_button);
         mBackButton.setOnClickListener(view -> finish());
     }
