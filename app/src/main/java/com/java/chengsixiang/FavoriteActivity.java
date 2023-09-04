@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -57,9 +58,8 @@ public class FavoriteActivity extends AppCompatActivity {
         recyclerView.addOnScrollListener(new ListScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                if (!mFullLoaded) {
+                if (!mFullLoaded)
                     loadNewsForCategory(mPage, newsAdapter);
-                }
             }
         });
     }

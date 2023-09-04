@@ -4,14 +4,12 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 public class DatabaseManager {
-    private static DatabaseHelper dbHelper;
     private static SQLiteDatabase db;
 
-    public static synchronized SQLiteDatabase getDatabase(Context context) {
+    public static synchronized void getDatabase(Context context) {
         if (db == null) {
-            dbHelper = new DatabaseHelper(context);
+            DatabaseHelper dbHelper = new DatabaseHelper(context);
             db = dbHelper.getWritableDatabase();
         }
-        return db;
     }
 }

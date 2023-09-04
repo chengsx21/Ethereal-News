@@ -60,34 +60,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
 
-    public long insertHistoryRecord(String title, String author, String date, String readDate, String content, String newsID, String imageUrl, String videoUrl) {
+    public long insertRecord(String tableName, String columnDate, String title, String author, String date, String currentDate, String content, String newsID, String imageUrl, String videoUrl) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_TITLE, title);
         values.put(COLUMN_AUTHOR, author);
         values.put(COLUMN_DATE, date);
-        values.put(COLUMN_READ_DATE, readDate);
+        values.put(columnDate, currentDate);
         values.put(COLUMN_CONTENT, content);
         values.put(COLUMN_NEWS_ID, newsID);
         values.put(COLUMN_IMAGE, imageUrl);
         values.put(COLUMN_VIDEO, videoUrl);
-        long rowId = db.insertWithOnConflict(TABLE_NAME_HISTORY, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-        db.close();
-        return rowId;
-    }
-
-    public long insertFavoriteRecord(String title, String author, String date, String starDate, String content, String newsID, String imageUrl, String videoUrl) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_TITLE, title);
-        values.put(COLUMN_AUTHOR, author);
-        values.put(COLUMN_DATE, date);
-        values.put(COLUMN_STAR_DATE, starDate);
-        values.put(COLUMN_CONTENT, content);
-        values.put(COLUMN_NEWS_ID, newsID);
-        values.put(COLUMN_IMAGE, imageUrl);
-        values.put(COLUMN_VIDEO, videoUrl);
-        long rowId = db.insertWithOnConflict(TABLE_NAME_FAVORTIE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        long rowId = db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         db.close();
         return rowId;
     }
@@ -134,6 +118,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return newsItems;
     }
 
+    public boolean isNewsIDExists(String tableName, String newsID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM " + tableName + " WHERE newsID = ?";
+        Cursor cursor = db.rawQuery(query, new String[] { newsID });
+        int count = 0;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                count = cursor.getInt(0);
+            }
+            cursor.close();
+        }
+        return count > 0;
+    }
+
+    public long insertHistoryRecord(String title, String author, String date, String readDate, String content, String newsID, String imageUrl, String videoUrl) {
+        return insertRecord(TABLE_NAME_HISTORY, COLUMN_READ_DATE, title, author, date, readDate, content, newsID, imageUrl, videoUrl);
+    }
+
+    public long insertFavoriteRecord(String title, String author, String date, String starDate, String content, String newsID, String imageUrl, String videoUrl) {
+        return insertRecord(TABLE_NAME_FAVORTIE, COLUMN_STAR_DATE, title, author, date, starDate, content, newsID, imageUrl, videoUrl);
+    }
+
     public List<NewsItem> getHistoryRecord() {
         return getRecord(TABLE_NAME_HISTORY, COLUMN_READ_DATE);
     }
@@ -148,19 +154,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean isNewsIDExistsInFavorite(String newsID) {
         return isNewsIDExists(TABLE_NAME_FAVORTIE, newsID);
-    }
-
-    public boolean isNewsIDExists(String tableName, String newsID) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT COUNT(*) FROM " + tableName + " WHERE newsID = ?";
-        Cursor cursor = db.rawQuery(query, new String[] { newsID });
-        int count = 0;
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                count = cursor.getInt(0);
-            }
-            cursor.close();
-        }
-        return count > 0;
     }
 }

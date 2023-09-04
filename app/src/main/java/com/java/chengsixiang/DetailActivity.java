@@ -44,20 +44,20 @@ public class DetailActivity extends Activity {
     }
 
     private void bindView() {
-        mTitle = findViewById(R.id.news_detail_title);
-        mAuthor = findViewById(R.id.news_detail_author);
-        mDate = findViewById(R.id.news_detail_date);
-        mContent = findViewById(R.id.news_detail_content);
-        mImage = findViewById(R.id.news_detail_image);
-        mVideo = findViewById(R.id.news_detail_video);
         Bundle bundle = this.getIntent().getExtras();
+        mTitle = findViewById(R.id.news_detail_title);
         title = bundle.getString("title");
+        mAuthor = findViewById(R.id.news_detail_author);
         author = bundle.getString("author");
+        mDate = findViewById(R.id.news_detail_date);
         date = bundle.getString("date");
+        mContent = findViewById(R.id.news_detail_content);
         content = bundle.getString("content");
-        newsID = bundle.getString("newsID");
+        mImage = findViewById(R.id.news_detail_image);
         imageUrl = bundle.getString("imageUrl");
+        mVideo = findViewById(R.id.news_detail_video);
         videoUrl = bundle.getString("videoUrl");
+        newsID = bundle.getString("newsID");
         isFavorite = new DatabaseHelper(this).isNewsIDExistsInFavorite(newsID);
     }
 
@@ -136,9 +136,11 @@ public class DetailActivity extends Activity {
                 Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
             }
         } else {
-            dbHelper.deleteFavoriteRecord(newsID);
+            long rowId = dbHelper.deleteFavoriteRecord(newsID);
             dbHelper.close();
-            Toast.makeText(this, "取消收藏", Toast.LENGTH_SHORT).show();
+            if (rowId != -1) {
+                Toast.makeText(this, "取消收藏", Toast.LENGTH_SHORT).show();
+            }
         }
         dbHelper.close();
     }

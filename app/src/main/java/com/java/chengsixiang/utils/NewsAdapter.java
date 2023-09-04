@@ -14,12 +14,12 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.java.chengsixiang.utils.DatabaseHelper;
 import com.java.chengsixiang.DetailActivity;
 import com.java.chengsixiang.R;
 
 import java.util.List;
 
+/** @noinspection ALL*/
 public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context mContext;
     private final List<NewsItem> mNews;
@@ -40,15 +40,25 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         NewsItem newsItem = mNews.get(position);
         ((NewsHolder) holder).tv_title.setText(newsItem.getTitle());
+        ((NewsHolder) holder).tv_title.setTextColor(mContext.getResources().getColor(R.color.newsTitleBackground));
         ((NewsHolder) holder).tv_author.setText(newsItem.getAuthor());
         ((NewsHolder) holder).tv_date.setText(newsItem.getDate());
         String imageUrl = newsItem.getImageUrl();
         String videoUrl = newsItem.getVideoUrl();
-        if (new DatabaseHelper(mContext).isNewsIDExistsInHistory(newsItem.getNewsID())) {
-            ((NewsHolder) holder).tv_title.setTextColor(mContext.getResources().getColor(R.color.newsReadTitleBackground));
-        } else {
-            ((NewsHolder) holder).tv_title.setTextColor(mContext.getResources().getColor(R.color.newsTitleBackground));
-        }
+
+        setNewsTitle((NewsHolder) holder, newsItem.getNewsID());
+        setImageAndVideo((NewsHolder) holder, imageUrl, videoUrl);
+        setClickItem((NewsHolder) holder, newsItem);
+    }
+
+    private void setNewsTitle(NewsHolder holder, String newsID) {
+        if (new DatabaseHelper(mContext).isNewsIDExistsInHistory(newsID))
+            holder.tv_title.setTextColor(mContext.getResources().getColor(R.color.newsReadTitleBackground));
+        else
+            holder.tv_title.setTextColor(mContext.getResources().getColor(R.color.newsTitleBackground));
+    }
+
+    private void setImageAndVideo(NewsHolder holder, String imageUrl, String videoUrl) {
         if (!videoUrl.equals("")) {
             ((NewsHolder) holder).vv.setVisibility(View.VISIBLE);
             ((NewsHolder) holder).vv.setVideoPath(videoUrl);
@@ -63,14 +73,15 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             } else {
                 ((NewsHolder) holder).iv.setVisibility(View.VISIBLE);
                 GlideApp.with(mContext)
-                        .load(newsItem.getImageUrl())
+                        .load(imageUrl)
                         .centerCrop() // 缩放类型
                         .into(((NewsHolder) holder).iv);
             }
         }
+    }
 
+    private void setClickItem(NewsHolder holder, NewsItem newsItem) {
         holder.itemView.setClickable(true);
-
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, DetailActivity.class);
             Bundle bundle = new Bundle();
@@ -82,6 +93,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             bundle.putString("videoUrl", newsItem.getVideoUrl());
             bundle.putString("newsID", newsItem.getNewsID());
             intent.putExtras(bundle);
+            ((NewsHolder) holder).tv_title.setTextColor(mContext.getResources().getColor(R.color.newsReadTitleBackground));
             mContext.startActivity(intent);
         });
     }

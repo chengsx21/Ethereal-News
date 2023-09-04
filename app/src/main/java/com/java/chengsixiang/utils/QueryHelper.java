@@ -1,7 +1,5 @@
 package com.java.chengsixiang.utils;
 
-import static android.os.SystemClock.sleep;
-
 import android.util.Log;
 
 import com.google.gson.JsonArray;
@@ -29,13 +27,24 @@ public class QueryHelper {
         void onFailure(String errorMessage);
     }
 
+    public static String getCurrentTime() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return now.format(formatter);
+    }
+
+    public static String getTimeBefore(String currentTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(currentTime, formatter);
+        LocalDateTime newDateTime = dateTime.minusSeconds(1);
+        return newDateTime.format(formatter);
+    }
+
     public void queryNews(String size, String startDate, String endDate, String words, String categories, NewsQueryCallback callback) {
-        if (Objects.equals(endDate, "")) {
+        if (Objects.equals(endDate, ""))
             endDate = getCurrentTime();
-        }
-        if (Objects.equals(categories, "全部")) {
+        if (Objects.equals(categories, "全部"))
             categories = "";
-        }
 
         String apiUrl = String.format("https://api2.newsminer.net/svc/news/queryNewsList?size=%s&startDate=%s&endDate=%s&words=%s&categories=%s", size, startDate, endDate, words, categories);
         Request request = new Request.Builder().url(apiUrl).build();
@@ -68,33 +77,17 @@ public class QueryHelper {
                         NewsItem newsItem = new NewsItem(title, content, date, author, imageUrl, videoUrl, newsID);
                         newsItems.add(newsItem);
                     }
-                    if (callback != null) {
+                    if (callback != null)
                         callback.onSuccess(newsItems);
-                    }
                 } else {
-                    if (callback != null) {
+                    if (callback != null)
                         callback.onFailure("Failed to get news data");
-                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                if (callback != null) {
+                if (callback != null)
                     callback.onFailure(e.getMessage());
-                }
             }
         }).start();
-    }
-
-    public static String getCurrentTime() {
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return now.format(formatter);
-    }
-
-    public static String getTimeBefore(String currentTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime dateTime = LocalDateTime.parse(currentTime, formatter);
-        LocalDateTime newDateTime = dateTime.minusSeconds(1);
-        return newDateTime.format(formatter);
     }
 }
