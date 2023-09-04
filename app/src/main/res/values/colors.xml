@@ -3,7 +3,8 @@
     <color name="colorBackground">#f9f9fa</color>
     <color name="appNameBackground">#ffffff</color>
     <color name="launcherBackground">#0A4774</color>
-    <color name="newsTitleBackground">#222222</color>
+    <color name="newsTitleBackground">#121212</color>
+    <color name="newsReadTitleBackground">#8E8C8C</color>
     <color name="newsAuthorBackground">#bfbfbf</color>
     <color name="newsDateBackground">#bfbfbf</color>
     <color name="newsContentBackground">#000000</color>
