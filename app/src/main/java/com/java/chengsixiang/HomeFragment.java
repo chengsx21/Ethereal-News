@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,12 +49,10 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.home_fragment, container, false);
         mCategoryName = CATEGORY_NAMES[getArguments().getInt("position")];
+        mProgressBar = rootView.findViewById(R.id.progress_bar);
         setRecyclerView();
         setSwipeRefreshView();
         initNewsForCategory();
-
-        mProgressBar = rootView.findViewById(R.id.progress_bar);
-
         return rootView;
     }
 
@@ -90,7 +87,6 @@ public class HomeFragment extends Fragment {
 
     private void initNewsForCategory() {
         mFullLoaded = false;
-
         QueryHelper newsQueryHelper = new QueryHelper();
         newsQueryHelper.queryNews("", "", "", "", mCategoryName, new QueryHelper.NewsQueryCallback() {
             @Override
@@ -101,7 +97,6 @@ public class HomeFragment extends Fragment {
                     newsScrollListener.resetLoadState();
                 });
             }
-
             @Override
             public void onFailure(String errorMessage) {
                 new Handler(Looper.getMainLooper()).post(
@@ -117,9 +112,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onSuccess(List<NewsItem> newsItems) {
                 new Handler(Looper.getMainLooper()).post(() -> {
-                    if (newsItems.size() == 0) {
+                    if (newsItems.size() == 0)
                         mFullLoaded = true;
-                    }
                     else {
                         mEndDate = getTimeBefore(newsItems.get(newsItems.size() - 1).getDate());
                         newsAdapter.addNewsItems(newsItems);

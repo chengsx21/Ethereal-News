@@ -1,12 +1,13 @@
 package com.java.chengsixiang.utils;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class ListScrollListener extends RecyclerView.OnScrollListener{
     private final LinearLayoutManager mLinearLayoutManager;
-    private int currentPage = 0; // 当前页, 从0开始
-    private int previousTotal = 0; // 存储上一个 totalItemCount
+    private int currentPage = 0; // 当前页
+    private int previousTotal = 0; // 上一个 totalItemCount
     private boolean loading = true; // 是否上拉
 
     public ListScrollListener(LinearLayoutManager linearLayoutManager) {
@@ -14,13 +15,13 @@ public abstract class ListScrollListener extends RecyclerView.OnScrollListener{
     }
 
     @Override
-    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
-        // 屏幕可见 Item 数
+        // 可见 Item 数
         int visibleItemCount = recyclerView.getChildCount();
         // 已加载 Item 数
         int totalItemCount = mLinearLayoutManager.getItemCount();
-        // 屏幕可见首个 Item
+        // 首个可见 Item
         int firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
 
         if (loading){

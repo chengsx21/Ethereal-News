@@ -39,7 +39,6 @@ public class ResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_list);
-
         initParams();
         setRecycleView();
         setBackButton();
@@ -55,12 +54,10 @@ public class ResultActivity extends AppCompatActivity {
         startDate = bundle.getString("startDate");
         endDate = bundle.getString("endDate");
         categories = bundle.getString("categories");
-        if (Objects.equals(startDate, "默认向前检索所有新闻")) {
+        if (Objects.equals(startDate, "默认向前检索所有新闻"))
             startDate = "";
-        }
-        if (Objects.equals(endDate, "默认为当前时间")) {
+        if (Objects.equals(endDate, "默认为当前时间"))
             endDate = "";
-        }
     }
 
     private void setBackButton() {
@@ -77,9 +74,8 @@ public class ResultActivity extends AppCompatActivity {
         recyclerView.addOnScrollListener(new ListScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                if (!mFullLoaded) {
+                if (!mFullLoaded)
                     loadNewsForCategory(categories, newsAdapter);
-                }
             }
         });
     }
@@ -89,9 +85,8 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onSuccess(List<NewsItem> newsItems) {
                 new Handler(Looper.getMainLooper()).post(() -> {
-                    if (newsItems.size() == 0) {
+                    if (newsItems.size() == 0)
                         mFullLoaded = true;
-                    }
                     else {
                         mEndDate = getTimeBefore(newsItems.get(newsItems.size() - 1).getDate());
                         newsAdapter.setNewsItems(newsItems);
@@ -112,9 +107,8 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onSuccess(List<NewsItem> newsItems) {
                 new Handler(Looper.getMainLooper()).post(() -> {
-                    if (newsItems.size() == 0) {
+                    if (newsItems.size() == 0)
                         mFullLoaded = true;
-                    }
                     else {
                         mEndDate = getTimeBefore(newsItems.get(newsItems.size() - 1).getDate());
                         newsAdapter.addNewsItems(newsItems);
