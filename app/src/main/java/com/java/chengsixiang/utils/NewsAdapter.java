@@ -1,7 +1,5 @@
 package com.java.chengsixiang.utils;
 
-import static java.security.AccessController.getContext;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +14,7 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.java.chengsixiang.utils.DatabaseHelper;
 import com.java.chengsixiang.DetailActivity;
 import com.java.chengsixiang.R;
 
@@ -45,6 +44,11 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ((NewsHolder) holder).tv_date.setText(newsItem.getDate());
         String imageUrl = newsItem.getImageUrl();
         String videoUrl = newsItem.getVideoUrl();
+        if (new DatabaseHelper(mContext).isNewsIDExistsInHistory(newsItem.getNewsID())) {
+            ((NewsHolder) holder).tv_title.setTextColor(mContext.getResources().getColor(R.color.newsReadTitleBackground));
+        } else {
+            ((NewsHolder) holder).tv_title.setTextColor(mContext.getResources().getColor(R.color.newsTitleBackground));
+        }
         if (!videoUrl.equals("")) {
             ((NewsHolder) holder).vv.setVisibility(View.VISIBLE);
             ((NewsHolder) holder).vv.setVideoPath(videoUrl);

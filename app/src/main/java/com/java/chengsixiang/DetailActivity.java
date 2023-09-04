@@ -58,7 +58,7 @@ public class DetailActivity extends Activity {
         newsID = bundle.getString("newsID");
         imageUrl = bundle.getString("imageUrl");
         videoUrl = bundle.getString("videoUrl");
-        isFavorite = new DatabaseHelper(this).isNewsIDExists(newsID);
+        isFavorite = new DatabaseHelper(this).isNewsIDExistsInFavorite(newsID);
     }
 
     private void setView() {

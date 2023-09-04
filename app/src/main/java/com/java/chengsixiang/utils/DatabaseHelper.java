@@ -142,9 +142,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return getRecord(TABLE_NAME_FAVORTIE, COLUMN_STAR_DATE);
     }
 
-    public boolean isNewsIDExists(String newsID) {
+    public boolean isNewsIDExistsInHistory(String newsID) {
+        return isNewsIDExists(TABLE_NAME_HISTORY, newsID);
+    }
+
+    public boolean isNewsIDExistsInFavorite(String newsID) {
+        return isNewsIDExists(TABLE_NAME_FAVORTIE, newsID);
+    }
+
+    public boolean isNewsIDExists(String tableName, String newsID) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT COUNT(*) FROM " + TABLE_NAME_FAVORTIE + " WHERE newsID = ?";
+        String query = "SELECT COUNT(*) FROM " + tableName + " WHERE newsID = ?";
         Cursor cursor = db.rawQuery(query, new String[] { newsID });
         int count = 0;
         if (cursor != null) {
