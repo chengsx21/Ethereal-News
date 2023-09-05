@@ -32,7 +32,7 @@ public class SearchPage extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.search_activity);
+        setContentView(R.layout.search_page);
         setBackButton();
         setNewsCategorySpinner();
         setStartDateTime();

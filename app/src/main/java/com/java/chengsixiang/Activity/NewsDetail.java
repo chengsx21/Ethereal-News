@@ -39,7 +39,7 @@ public class NewsDetail extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.detail_activity);
+        setContentView(R.layout.news_detail);
         bindView();
         setView();
         setFavoriteButton();

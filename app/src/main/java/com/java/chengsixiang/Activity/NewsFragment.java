@@ -48,7 +48,7 @@ public class NewsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.home_fragment, container, false);
+        rootView = inflater.inflate(R.layout.news_fragment, container, false);
         categoryName = PagerAdapter.CATEGORY_NAMES.get(requireArguments().getInt("position"));
         progressBar = rootView.findViewById(R.id.progress_bar);
         setRecyclerView();
