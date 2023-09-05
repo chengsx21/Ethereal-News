@@ -157,10 +157,6 @@ public class CategoryActivity extends AppCompatActivity {
                 String category = selectedCategories.remove(position);
                 availableCategories.add(category);
             }
-            else {
-                String category = availableCategories.remove(position - selectedCategories.size());
-                selectedCategories.add(category);
-            }
             notifyDataSetChanged();
         }
 
