@@ -35,7 +35,7 @@ public class CategorySetting extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.category_list);
+        setContentView(R.layout.category_setting);
         context = this;
         setCategories();
         setBackButton();

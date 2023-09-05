@@ -18,7 +18,7 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_activity);
+        setContentView(R.layout.home_page);
         setTabLayout();
         setSettingButton();
         setFavoriteButton();
