@@ -1,4 +1,4 @@
-package com.java.chengsixiang.utils;
+package com.java.chengsixiang.Utils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -19,7 +19,6 @@ import okhttp3.Response;
 
 public class QueryHelper {
     private final OkHttpClient client = new OkHttpClient();
-
     public interface NewsQueryCallback {
         void onSuccess(List<NewsItem> newsItems);
         void onFailure(String errorMessage);

@@ -1,4 +1,4 @@
-package com.java.chengsixiang;
+package com.java.chengsixiang.Activity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,21 +9,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.java.chengsixiang.utils.NewsAdapter;
-import com.java.chengsixiang.utils.NewsItem;
-import com.java.chengsixiang.utils.DatabaseHelper;
-import com.java.chengsixiang.utils.ListScrollListener;
+import com.java.chengsixiang.R;
+import com.java.chengsixiang.Adapter.NewsAdapter;
+import com.java.chengsixiang.Utils.NewsItem;
+import com.java.chengsixiang.Utils.DatabaseHelper;
+import com.java.chengsixiang.Utils.ScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavoriteActivity extends AppCompatActivity {
-    private int mPage = 0;
-    private Context mContext;
+public class HistoryRecord extends AppCompatActivity {
+    private int page = 0;
+    private Context context;
     private List<NewsItem> newsItems;
     private LinearLayoutManager layoutManager;
     private NewsAdapter newsAdapter;
-    private boolean mFullLoaded = false;
+    private boolean loaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +33,15 @@ public class FavoriteActivity extends AppCompatActivity {
         initParams();
         setRecycleView();
         setBackButton();
-        loadNewsForCategory(mPage, newsAdapter);
+        loadNewsForCategory(page, newsAdapter);
     }
 
     private void initParams() {
-        mContext = this;
+        context = this;
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(R.string.news_favorite_toolbar);
-        try (DatabaseHelper dbHelper = new DatabaseHelper(mContext)) {
-            newsItems = dbHelper.getFavoriteRecord();
+        toolbarTitle.setText(R.string.news_history_toolbar);
+        try (DatabaseHelper dbHelper = new DatabaseHelper(context)) {
+            newsItems = dbHelper.getHistoryRecord();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,15 +54,16 @@ public class FavoriteActivity extends AppCompatActivity {
 
     private void setRecycleView() {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        newsAdapter = new NewsAdapter(mContext, new ArrayList<>());
+        newsAdapter = new NewsAdapter(context, new ArrayList<>());
         recyclerView.setAdapter(newsAdapter);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addOnScrollListener(new ListScrollListener(layoutManager) {
+        recyclerView.addOnScrollListener(new ScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                if (!mFullLoaded)
-                    loadNewsForCategory(mPage, newsAdapter);
+                if (!loaded) {
+                    loadNewsForCategory(page, newsAdapter);
+                }
             }
         });
     }
@@ -72,10 +74,10 @@ public class FavoriteActivity extends AppCompatActivity {
         int toIndex = Math.min((page + 1) * newsPerPage, newsItems.size());
         if (fromIndex < toIndex) {
             List<NewsItem> loadItems = newsItems.subList(fromIndex, toIndex);
-            mPage++;
+            this.page++;
             newsAdapter.addNewsItems(loadItems);
         }
         else
-            mFullLoaded = true;
+            loaded = true;
     }
 }

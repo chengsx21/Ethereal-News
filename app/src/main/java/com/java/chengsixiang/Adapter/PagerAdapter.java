@@ -1,4 +1,4 @@
-package com.java.chengsixiang.utils;
+package com.java.chengsixiang.Adapter;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.java.chengsixiang.HomeFragment;
+import com.java.chengsixiang.Activity.NewsFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +34,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return HomeFragment.newInstance(position);
+        return NewsFragment.newInstance(position);
     }
 
     @Override

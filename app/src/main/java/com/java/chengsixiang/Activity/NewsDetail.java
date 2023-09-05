@@ -1,4 +1,4 @@
-package com.java.chengsixiang;
+package com.java.chengsixiang.Activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,15 +10,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.java.chengsixiang.utils.GlideApp;
-import com.java.chengsixiang.utils.DatabaseHelper;
+import com.java.chengsixiang.R;
+import com.java.chengsixiang.Utils.GlideApp;
+import com.java.chengsixiang.Utils.DatabaseHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
-public class DetailActivity extends Activity {
+public class NewsDetail extends Activity {
     private TextView mTitle;
     private String title;
     private TextView mAuthor;

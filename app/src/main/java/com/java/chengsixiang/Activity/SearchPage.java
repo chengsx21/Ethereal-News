@@ -1,4 +1,4 @@
-package com.java.chengsixiang;
+package com.java.chengsixiang.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -15,11 +15,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.java.chengsixiang.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchPage extends AppCompatActivity {
     private final int maxTextLimit = 40;
     private EditText searchText;
     private TextView startDateTime;
@@ -137,7 +139,7 @@ public class SearchActivity extends AppCompatActivity {
             bundle.putString("startDate", startDateTime.getText().toString());
             bundle.putString("endDate", endDateTime.getText().toString());
             bundle.putString("categories", ((Spinner) findViewById(R.id.news_category_spinner)).getSelectedItem().toString());
-            Intent intent = new Intent(SearchActivity.this, ResultActivity.class);
+            Intent intent = new Intent(SearchPage.this, SearchResult.class);
             intent.putExtras(bundle);
             startActivity(intent);
         });

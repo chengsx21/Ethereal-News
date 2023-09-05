@@ -1,6 +1,6 @@
-package com.java.chengsixiang;
+package com.java.chengsixiang.Activity;
 
-import static com.java.chengsixiang.utils.QueryHelper.getTimeBefore;
+import static com.java.chengsixiang.Utils.QueryHelper.getTimeBefore;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,28 +18,29 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.java.chengsixiang.utils.NewsAdapter;
-import com.java.chengsixiang.utils.NewsItem;
-import com.java.chengsixiang.utils.PagerAdapter;
-import com.java.chengsixiang.utils.QueryHelper;
-import com.java.chengsixiang.utils.ListScrollListener;
+import com.java.chengsixiang.R;
+import com.java.chengsixiang.Adapter.NewsAdapter;
+import com.java.chengsixiang.Utils.NewsItem;
+import com.java.chengsixiang.Adapter.PagerAdapter;
+import com.java.chengsixiang.Utils.QueryHelper;
+import com.java.chengsixiang.Utils.ScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
-    private String mCategoryName;
-    private String mEndDate;
-    private boolean mFullLoaded;
+public class NewsFragment extends Fragment {
+    private String categoryName;
+    private String endDate;
+    private boolean loaded;
     private View rootView;
-    private ProgressBar mProgressBar;
+    private ProgressBar progressBar;
     private NewsAdapter newsAdapter;
-    private ListScrollListener newsScrollListener;
+    private ScrollListener newsScrollListener;
 
-    public static HomeFragment newInstance(int categoryPosition) {
+    public static NewsFragment newInstance(int categoryPosition) {
         Bundle bundle = new Bundle();
         bundle.putInt("position", categoryPosition);
-        HomeFragment fragment = new HomeFragment();
+        NewsFragment fragment = new NewsFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -48,8 +49,8 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.home_fragment, container, false);
-        mCategoryName = PagerAdapter.CATEGORY_NAMES.get(requireArguments().getInt("position"));
-        mProgressBar = rootView.findViewById(R.id.progress_bar);
+        categoryName = PagerAdapter.CATEGORY_NAMES.get(requireArguments().getInt("position"));
+        progressBar = rootView.findViewById(R.id.progress_bar);
         setRecyclerView();
         setSwipeRefreshView();
         initNewsForCategory();
@@ -62,14 +63,14 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         newsAdapter = new NewsAdapter(getContext(), new ArrayList<>());
         recyclerView.setAdapter(newsAdapter);
-        newsScrollListener = new ListScrollListener(layoutManager) {
+        newsScrollListener = new ScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                if (!mFullLoaded) {
-                    mProgressBar.setVisibility(View.VISIBLE);
+                if (!loaded) {
+                    progressBar.setVisibility(View.VISIBLE);
                     loadNewsForCategory();
                     new Handler().postDelayed(
-                        () -> mProgressBar.setVisibility(View.GONE), 600
+                        () -> progressBar.setVisibility(View.GONE), 600
                     );
                 }
             }
@@ -86,13 +87,13 @@ public class HomeFragment extends Fragment {
     }
 
     private void initNewsForCategory() {
-        mFullLoaded = false;
+        loaded = false;
         QueryHelper queryHelper = new QueryHelper();
-        queryHelper.queryNews("", "", "", "", mCategoryName, new QueryHelper.NewsQueryCallback() {
+        queryHelper.queryNews("", "", "", "", categoryName, new QueryHelper.NewsQueryCallback() {
             @Override
             public void onSuccess(List<NewsItem> newsItems) {
                 new Handler(Looper.getMainLooper()).post(() -> {
-                    mEndDate = getTimeBefore(newsItems.get(newsItems.size() - 1).getDate());
+                    endDate = getTimeBefore(newsItems.get(newsItems.size() - 1).getDate());
                     newsAdapter.setNewsItems(newsItems);
                     newsScrollListener.resetLoadState();
                 });
@@ -108,14 +109,14 @@ public class HomeFragment extends Fragment {
 
     private void loadNewsForCategory() {
         QueryHelper queryHelper = new QueryHelper();
-        queryHelper.queryNews("", "", mEndDate, "", mCategoryName, new QueryHelper.NewsQueryCallback() {
+        queryHelper.queryNews("", "", endDate, "", categoryName, new QueryHelper.NewsQueryCallback() {
             @Override
             public void onSuccess(List<NewsItem> newsItems) {
                 new Handler(Looper.getMainLooper()).post(() -> {
                     if (newsItems.size() == 0)
-                        mFullLoaded = true;
+                        loaded = true;
                     else {
-                        mEndDate = getTimeBefore(newsItems.get(newsItems.size() - 1).getDate());
+                        endDate = getTimeBefore(newsItems.get(newsItems.size() - 1).getDate());
                         newsAdapter.addNewsItems(newsItems);
                     }
                 });

@@ -1,16 +1,16 @@
-package com.java.chengsixiang.utils;
+package com.java.chengsixiang.Utils;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public abstract class ListScrollListener extends RecyclerView.OnScrollListener{
+public abstract class ScrollListener extends RecyclerView.OnScrollListener{
     private final LinearLayoutManager mLinearLayoutManager;
     private int currentPage = 0;
     private int previousTotal = 0;
     private boolean loading = true;
 
-    public ListScrollListener(LinearLayoutManager linearLayoutManager) {
+    public ScrollListener(LinearLayoutManager linearLayoutManager) {
         this.mLinearLayoutManager = linearLayoutManager;
     }
 

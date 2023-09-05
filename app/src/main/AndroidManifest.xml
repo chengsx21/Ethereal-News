@@ -18,7 +18,7 @@
         android:theme="@style/Theme.EtherealNews"
         tools:targetApi="31">
         <activity
-            android:name=".HomeActivity"
+            android:name=".Activity.HomePage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,27 +26,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DetailActivity"
+            android:name=".Activity.NewsDetail"
             android:exported="true">
         </activity>
         <activity
-            android:name=".SearchActivity"
+            android:name=".Activity.SearchPage"
             android:exported="true">
         </activity>
         <activity
-            android:name=".ResultActivity"
+            android:name=".Activity.SearchResult"
             android:exported="true">
         </activity>
         <activity
-            android:name=".CategoryActivity"
+            android:name=".Activity.CategorySetting"
             android:exported="true">
         </activity>
         <activity
-            android:name=".HistoryActivity"
+            android:name=".Activity.HistoryRecord"
             android:exported="true">
         </activity>
         <activity
-            android:name=".FavoriteActivity"
+            android:name=".Activity.FavoriteNews"
             android:exported="true">
         </activity>
     </application>
