@@ -44,19 +44,18 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void setCategories() {
-        SharedPreferences sharedPreferences = getSharedPreferences("categories", MODE_PRIVATE);
-        String availableString = sharedPreferences.getString("available", "");
-        String selectedString = sharedPreferences.getString("selected", "");
+        SharedPreferences sharedCategories = getSharedPreferences("categories", MODE_PRIVATE);
+        String availableString = sharedCategories.getString("available", "");
+        String selectedString = sharedCategories.getString("selected", "");
 
-        selectedCategories = new ArrayList<>(Arrays.asList(selectedString.split(",")));
-        availableCategories = new ArrayList<>(Arrays.asList(availableString.split(",")));
-
-        if (selectedString.isEmpty()) {
+        if (selectedString.isEmpty())
             selectedCategories = new ArrayList<>(Arrays.asList("全部", "娱乐", "军事", "教育", "文化", "健康", "财经", "体育", "汽车", "科技", "社会"));
-        }
-        if (availableString.isEmpty()) {
+        else
+            selectedCategories = new ArrayList<>(Arrays.asList(selectedString.split(",")));
+        if (availableString.isEmpty())
             availableCategories = new ArrayList<>();
-        }
+        else
+            availableCategories = new ArrayList<>(Arrays.asList(availableString.split(",")));
     }
 
     private void setBackButton() {
@@ -67,14 +66,12 @@ public class CategoryActivity extends AppCompatActivity {
     private void setSaveButton() {
         Button saveButton = findViewById(R.id.save_button);
         saveButton.setOnClickListener(view -> {
-            SharedPreferences sharedPreferences = getSharedPreferences("categories", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            String selectedString = TextUtils.join(",", selectedCategories);
-            String availableString = TextUtils.join(",", availableCategories);
-            editor.putString("selected", selectedString);
-            editor.putString("available", availableString);
+            SharedPreferences sharedCategories = getSharedPreferences("categories", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedCategories.edit();
+            editor.putString("selected", TextUtils.join(",", selectedCategories));
+            editor.putString("available", TextUtils.join(",", availableCategories));
             editor.apply();
-            Toast.makeText(context, "已保存", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "修改分类成功", Toast.LENGTH_SHORT).show();
             setResult(RESULT_OK);
             finish();
         });
