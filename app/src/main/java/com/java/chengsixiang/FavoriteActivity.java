@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FavoriteActivity extends AppCompatActivity {
-    private final int newsPerPage = 10;
     private int mPage = 0;
     private Context mContext;
     private List<NewsItem> newsItems;
@@ -41,7 +39,11 @@ public class FavoriteActivity extends AppCompatActivity {
         mContext = this;
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.news_favorite_toolbar);
-        newsItems = new DatabaseHelper(mContext).getFavoriteRecord();
+        try (DatabaseHelper dbHelper = new DatabaseHelper(mContext)) {
+            newsItems = dbHelper.getFavoriteRecord();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setBackButton() {
@@ -65,14 +67,15 @@ public class FavoriteActivity extends AppCompatActivity {
     }
 
     private void loadNewsForCategory(int page, NewsAdapter newsAdapter) {
+        int newsPerPage = 10;
         int fromIndex = page * newsPerPage;
         int toIndex = Math.min((page + 1) * newsPerPage, newsItems.size());
         if (fromIndex < toIndex) {
             List<NewsItem> loadItems = newsItems.subList(fromIndex, toIndex);
             mPage++;
             newsAdapter.addNewsItems(loadItems);
-        } else {
-            mFullLoaded = true;
         }
+        else
+            mFullLoaded = true;
     }
 }

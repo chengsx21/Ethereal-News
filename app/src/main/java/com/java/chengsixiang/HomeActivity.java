@@ -5,12 +5,15 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.widget.ImageButton;
 
 import com.google.android.material.tabs.TabLayout;
 import com.java.chengsixiang.utils.PagerAdapter;
 
 public class HomeActivity extends AppCompatActivity {
+    private static final int REQUEST_CODE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +28,7 @@ public class HomeActivity extends AppCompatActivity {
     private void setTabLayout() {
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         ViewPager viewPager = findViewById(R.id.view_pager);
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -34,7 +37,7 @@ public class HomeActivity extends AppCompatActivity {
         ImageButton mSettingButton = findViewById(R.id.setting_button);
         mSettingButton.setOnClickListener(view -> {
             Intent intent = new Intent(HomeActivity.this, CategoryActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CODE);
         });
     }
 
@@ -60,5 +63,13 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
             startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            setTabLayout();
+        }
     }
 }

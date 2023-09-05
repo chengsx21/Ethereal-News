@@ -18,6 +18,7 @@
     <string name="history_button">History</string>
     <string name="news_setting_toolbar">Category Setting</string>
     <string name="setting_button">Setting</string>
+    <string name="settings_save">Save</string>
     <string-array name="news_categories">
         <item>全部</item>
         <item>娱乐</item>

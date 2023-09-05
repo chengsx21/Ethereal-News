@@ -16,6 +16,7 @@ import com.java.chengsixiang.utils.DatabaseHelper;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class DetailActivity extends Activity {
     private TextView mTitle;
@@ -32,6 +33,7 @@ public class DetailActivity extends Activity {
     private String videoUrl;
     private String newsID;
     private boolean isFavorite;
+    private ImageButton mFavoriteButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,7 @@ public class DetailActivity extends Activity {
     private void bindView() {
         Bundle bundle = this.getIntent().getExtras();
         mTitle = findViewById(R.id.news_detail_title);
-        title = bundle.getString("title");
+        title = Objects.requireNonNull(bundle).getString("title");
         mAuthor = findViewById(R.id.news_detail_author);
         author = bundle.getString("author");
         mDate = findViewById(R.id.news_detail_date);
@@ -58,7 +60,13 @@ public class DetailActivity extends Activity {
         mVideo = findViewById(R.id.news_detail_video);
         videoUrl = bundle.getString("videoUrl");
         newsID = bundle.getString("newsID");
-        isFavorite = new DatabaseHelper(this).isNewsIDExistsInFavorite(newsID);
+        try {
+            DatabaseHelper dbHelper = new DatabaseHelper(this);
+            isFavorite = dbHelper.isNewsIDExistsInFavorite(newsID);
+            dbHelper.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setView() {
@@ -80,9 +88,9 @@ public class DetailActivity extends Activity {
             mVideo.requestFocus();
         } else {
             mVideo.setVisibility(View.GONE);
-            if (imageUrl.equals("")) {
+            if (imageUrl.equals(""))
                 mImage.setVisibility(View.GONE);
-            } else {
+            else {
                 mImage.setVisibility(View.VISIBLE);
                 GlideApp.with(this)
                         .load(imageUrl)
@@ -98,22 +106,20 @@ public class DetailActivity extends Activity {
     }
 
     private void setFavoriteButton() {
-        ImageButton mFavoriteButton = findViewById(R.id.favorite_button);
-        if (isFavorite) {
-            mFavoriteButton.setImageResource(R.drawable.ic_favorite_full);
-        } else {
-            mFavoriteButton.setImageResource(R.drawable.ic_favorite);
-        }
-
+        mFavoriteButton = findViewById(R.id.favorite_button);
+        setFavoriteIcon();
         mFavoriteButton.setOnClickListener(view -> {
             isFavorite = !isFavorite;
-            if (isFavorite) {
-                mFavoriteButton.setImageResource(R.drawable.ic_favorite_full);
-            } else {
-                mFavoriteButton.setImageResource(R.drawable.ic_favorite);
-            }
+            setFavoriteIcon();
             updateFavoriteRecords(isFavorite);
         });
+    }
+
+    private void setFavoriteIcon() {
+        if (isFavorite)
+            mFavoriteButton.setImageResource(R.drawable.ic_favorite_full);
+        else
+            mFavoriteButton.setImageResource(R.drawable.ic_favorite);
     }
 
     private void updateHistoryRecords() {
@@ -121,9 +127,8 @@ public class DetailActivity extends Activity {
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         long rowId = dbHelper.insertHistoryRecord(title, author, date, readDate, content, newsID, imageUrl, videoUrl);
         dbHelper.close();
-        if (rowId == -1) {
+        if (rowId == -1)
             Toast.makeText(this, "保存历史记录失败", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void updateFavoriteRecords(boolean isFavorite) {
@@ -132,15 +137,13 @@ public class DetailActivity extends Activity {
             String starDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
             long rowId = dbHelper.insertFavoriteRecord(title, author, date, starDate, content, newsID, imageUrl, videoUrl);
             dbHelper.close();
-            if (rowId != -1) {
+            if (rowId != -1)
                 Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
-            }
         } else {
             long rowId = dbHelper.deleteFavoriteRecord(newsID);
             dbHelper.close();
-            if (rowId != -1) {
+            if (rowId != -1)
                 Toast.makeText(this, "取消收藏", Toast.LENGTH_SHORT).show();
-            }
         }
         dbHelper.close();
     }

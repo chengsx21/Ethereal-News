@@ -50,7 +50,7 @@ public class ResultActivity extends AppCompatActivity {
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.news_result_toolbar);
         Bundle bundle = this.getIntent().getExtras();
-        words = bundle.getString("words");
+        words = Objects.requireNonNull(bundle).getString("words");
         startDate = bundle.getString("startDate");
         endDate = bundle.getString("endDate");
         categories = bundle.getString("categories");

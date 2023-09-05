@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryActivity extends AppCompatActivity {
-    private final int newsPerPage = 10;
     private int mPage = 0;
     private Context mContext;
     private List<NewsItem> newsItems;
@@ -40,7 +39,11 @@ public class HistoryActivity extends AppCompatActivity {
         mContext = this;
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.news_history_toolbar);
-        newsItems = new DatabaseHelper(mContext).getHistoryRecord();
+        try (DatabaseHelper dbHelper = new DatabaseHelper(mContext)) {
+            newsItems = dbHelper.getHistoryRecord();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setBackButton() {
@@ -65,14 +68,15 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void loadNewsForCategory(int page, NewsAdapter newsAdapter) {
+        int newsPerPage = 10;
         int fromIndex = page * newsPerPage;
         int toIndex = Math.min((page + 1) * newsPerPage, newsItems.size());
         if (fromIndex < toIndex) {
             List<NewsItem> loadItems = newsItems.subList(fromIndex, toIndex);
             mPage++;
             newsAdapter.addNewsItems(loadItems);
-        } else {
-            mFullLoaded = true;
         }
+        else
+            mFullLoaded = true;
     }
 }

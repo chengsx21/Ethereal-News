@@ -76,13 +76,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rowId;
     }
 
-    public long deleteFavoriteRecord(String newsID) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        long rowId = db.delete(TABLE_NAME_FAVORTIE, COLUMN_NEWS_ID + " = ?", new String[] { newsID });
-        db.close();
-        return rowId;
-    }
-
     @SuppressLint("Range")
     public List<NewsItem> getRecord(String tableName, String columnDate) {
         List<NewsItem> newsItems = new ArrayList<>();
@@ -124,9 +117,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, new String[] { newsID });
         int count = 0;
         if (cursor != null) {
-            if (cursor.moveToFirst()) {
+            if (cursor.moveToFirst())
                 count = cursor.getInt(0);
-            }
             cursor.close();
         }
         return count > 0;
@@ -138,6 +130,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public long insertFavoriteRecord(String title, String author, String date, String starDate, String content, String newsID, String imageUrl, String videoUrl) {
         return insertRecord(TABLE_NAME_FAVORTIE, COLUMN_STAR_DATE, title, author, date, starDate, content, newsID, imageUrl, videoUrl);
+    }
+
+    public long deleteFavoriteRecord(String newsID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        long rowId = db.delete(TABLE_NAME_FAVORTIE, COLUMN_NEWS_ID + " = ?", new String[] { newsID });
+        db.close();
+        return rowId;
     }
 
     public List<NewsItem> getHistoryRecord() {
