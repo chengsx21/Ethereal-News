@@ -1,7 +1,5 @@
 package com.java.chengsixiang.utils;
 
-import androidx.annotation.NonNull;
-
 import java.io.Serializable;
 
 public class NewsItem implements Serializable {
@@ -87,19 +85,5 @@ public class NewsItem implements Serializable {
 
     public void setNewsID(String id) {
         this.newsID = id;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return "NewsItem{" +
-                "title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", date='" + date + '\'' +
-                ", author='" + author + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", videoUrl='" + videoUrl + '\'' +
-                ", newsID='" + newsID + '\'' +
-                '}';
     }
 }

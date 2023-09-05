@@ -20,6 +20,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.java.chengsixiang.utils.NewsAdapter;
 import com.java.chengsixiang.utils.NewsItem;
+import com.java.chengsixiang.utils.PagerAdapter;
 import com.java.chengsixiang.utils.QueryHelper;
 import com.java.chengsixiang.utils.ListScrollListener;
 
@@ -27,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    private static final String[] CATEGORY_NAMES = {"全部", "娱乐", "军事", "教育", "文化", "健康", "财经", "体育", "汽车", "科技", "社会"};
     private String mCategoryName;
     private String mEndDate;
     private boolean mFullLoaded;
@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.home_fragment, container, false);
-        mCategoryName = CATEGORY_NAMES[getArguments().getInt("position")];
+        mCategoryName = PagerAdapter.CATEGORY_NAMES.get(requireArguments().getInt("position"));
         mProgressBar = rootView.findViewById(R.id.progress_bar);
         setRecyclerView();
         setSwipeRefreshView();
@@ -68,9 +68,9 @@ public class HomeFragment extends Fragment {
                 if (!mFullLoaded) {
                     mProgressBar.setVisibility(View.VISIBLE);
                     loadNewsForCategory();
-                    new Handler().postDelayed(() -> {
-                        mProgressBar.setVisibility(View.GONE);
-                    }, 600);
+                    new Handler().postDelayed(
+                        () -> mProgressBar.setVisibility(View.GONE), 600
+                    );
                 }
             }
         };
@@ -87,8 +87,8 @@ public class HomeFragment extends Fragment {
 
     private void initNewsForCategory() {
         mFullLoaded = false;
-        QueryHelper newsQueryHelper = new QueryHelper();
-        newsQueryHelper.queryNews("", "", "", "", mCategoryName, new QueryHelper.NewsQueryCallback() {
+        QueryHelper queryHelper = new QueryHelper();
+        queryHelper.queryNews("", "", "", "", mCategoryName, new QueryHelper.NewsQueryCallback() {
             @Override
             public void onSuccess(List<NewsItem> newsItems) {
                 new Handler(Looper.getMainLooper()).post(() -> {
@@ -107,8 +107,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadNewsForCategory() {
-        QueryHelper newsQueryHelper = new QueryHelper();
-        newsQueryHelper.queryNews("", "", mEndDate, "", mCategoryName, new QueryHelper.NewsQueryCallback() {
+        QueryHelper queryHelper = new QueryHelper();
+        queryHelper.queryNews("", "", mEndDate, "", mCategoryName, new QueryHelper.NewsQueryCallback() {
             @Override
             public void onSuccess(List<NewsItem> newsItems) {
                 new Handler(Looper.getMainLooper()).post(() -> {

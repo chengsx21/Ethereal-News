@@ -19,7 +19,6 @@ import com.java.chengsixiang.R;
 
 import java.util.List;
 
-/** @noinspection ALL*/
 public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context mContext;
     private final List<NewsItem> mNews;
@@ -52,30 +51,34 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void setNewsTitle(NewsHolder holder, String newsID) {
-        if (new DatabaseHelper(mContext).isNewsIDExistsInHistory(newsID))
-            holder.tv_title.setTextColor(mContext.getResources().getColor(R.color.newsReadTitleBackground));
-        else
-            holder.tv_title.setTextColor(mContext.getResources().getColor(R.color.newsTitleBackground));
+        try (DatabaseHelper dbHelper = new DatabaseHelper(mContext)) {
+            if (dbHelper.isNewsIDExistsInHistory(newsID))
+                holder.tv_title.setTextColor(mContext.getResources().getColor(R.color.newsReadTitleBackground));
+            else
+                holder.tv_title.setTextColor(mContext.getResources().getColor(R.color.newsTitleBackground));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setImageAndVideo(NewsHolder holder, String imageUrl, String videoUrl) {
         if (!videoUrl.equals("")) {
-            ((NewsHolder) holder).vv.setVisibility(View.VISIBLE);
-            ((NewsHolder) holder).vv.setVideoPath(videoUrl);
+            holder.vv.setVisibility(View.VISIBLE);
+            holder.vv.setVideoPath(videoUrl);
             MediaController mediaController = new MediaController(mContext);
-            mediaController.setAnchorView(((NewsHolder) holder).vv);
-            ((NewsHolder) holder).vv.setMediaController(mediaController);
-            ((NewsHolder) holder).vv.requestFocus();
+            mediaController.setAnchorView(holder.vv);
+            holder.vv.setMediaController(mediaController);
+            holder.vv.requestFocus();
         } else {
-            ((NewsHolder) holder).vv.setVisibility(View.GONE);
-            if (imageUrl.equals("")) {
-                ((NewsHolder) holder).iv.setVisibility(View.GONE);
-            } else {
-                ((NewsHolder) holder).iv.setVisibility(View.VISIBLE);
+            holder.vv.setVisibility(View.GONE);
+            if (imageUrl.equals(""))
+                holder.iv.setVisibility(View.GONE);
+            else {
+                holder.iv.setVisibility(View.VISIBLE);
                 GlideApp.with(mContext)
                         .load(imageUrl)
                         .centerCrop() // 缩放类型
-                        .into(((NewsHolder) holder).iv);
+                        .into(holder.iv);
             }
         }
     }
@@ -93,7 +96,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             bundle.putString("videoUrl", newsItem.getVideoUrl());
             bundle.putString("newsID", newsItem.getNewsID());
             intent.putExtras(bundle);
-            ((NewsHolder) holder).tv_title.setTextColor(mContext.getResources().getColor(R.color.newsReadTitleBackground));
+            holder.tv_title.setTextColor(mContext.getResources().getColor(R.color.newsReadTitleBackground));
             mContext.startActivity(intent);
         });
     }

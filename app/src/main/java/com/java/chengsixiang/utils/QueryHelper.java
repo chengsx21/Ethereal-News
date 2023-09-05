@@ -1,7 +1,5 @@
 package com.java.chengsixiang.utils;
 
-import android.util.Log;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -48,12 +46,10 @@ public class QueryHelper {
 
         String apiUrl = String.format("https://api2.newsminer.net/svc/news/queryNewsList?size=%s&startDate=%s&endDate=%s&words=%s&categories=%s", size, startDate, endDate, words, categories);
         Request request = new Request.Builder().url(apiUrl).build();
-        Log.d("NewsQueryHelper", apiUrl);
         new Thread(() -> {
-            try {
-                Response response = client.newCall(request).execute();
+            try (Response response = client.newCall(request).execute()) {
                 if (response.isSuccessful()) {
-                    String resData = response.body().string();
+                    String resData = Objects.requireNonNull(response.body()).string();
                     JsonParser jsonParser = new JsonParser();
                     JsonObject jsonObject = jsonParser.parse(resData).getAsJsonObject();
                     JsonArray dataArray = jsonObject.getAsJsonArray("data");
@@ -66,12 +62,7 @@ public class QueryHelper {
                         String date = newsObject.get("publishTime").getAsString();
                         String author = newsObject.get("publisher").getAsString();
                         String imageUrlArray = newsObject.get("image").getAsString();
-                        String imageUrl = "";
-                        Pattern pattern = Pattern.compile("http[^,\\]]+");
-                        Matcher matcher = pattern.matcher(imageUrlArray);
-                        if (matcher.find()) {
-                            imageUrl = matcher.group();
-                        }
+                        String imageUrl = decodeImageUrl(imageUrlArray);
                         String videoUrl = newsObject.get("video").getAsString();
                         String newsID = newsObject.get("newsID").getAsString();
                         NewsItem newsItem = new NewsItem(title, content, date, author, imageUrl, videoUrl, newsID);
@@ -89,5 +80,14 @@ public class QueryHelper {
                     callback.onFailure(e.getMessage());
             }
         }).start();
+    }
+
+    private String decodeImageUrl(String imageUrlArray) {
+        String imageUrl = "";
+        Pattern pattern = Pattern.compile("http[^,\\]]+");
+        Matcher matcher = pattern.matcher(imageUrlArray);
+        if (matcher.find())
+            imageUrl = matcher.group();
+        return imageUrl;
     }
 }

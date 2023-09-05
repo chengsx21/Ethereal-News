@@ -1,5 +1,9 @@
 package com.java.chengsixiang.utils;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import androidx.fragment.app.Fragment;
@@ -8,12 +12,23 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.java.chengsixiang.HomeFragment;
 
-public class PagerAdapter extends FragmentPagerAdapter {
-    private static int NUM_PAGES = 11;
-    private static String[] CATEGORY_NAMES = {"全部", "娱乐", "军事", "教育", "文化", "健康", "财经", "体育", "汽车", "科技", "社会"};
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-    public PagerAdapter(FragmentManager fragmentManager) {
+public class PagerAdapter extends FragmentPagerAdapter {
+    public static int NUM_PAGES;
+    public static List<String> CATEGORY_NAMES;
+
+    public PagerAdapter(FragmentManager fragmentManager, Context context) {
         super(fragmentManager);
+        SharedPreferences sharedCategories = context.getSharedPreferences("categories", MODE_PRIVATE);
+        String categoryString = sharedCategories.getString("selected", "");
+        if (categoryString.isEmpty())
+            CATEGORY_NAMES = new ArrayList<>(Arrays.asList("全部", "娱乐", "军事", "教育", "文化", "健康", "财经", "体育", "汽车", "科技", "社会"));
+        else
+            CATEGORY_NAMES = new ArrayList<>(Arrays.asList(categoryString.split(",")));
+        NUM_PAGES = CATEGORY_NAMES.size();
     }
 
     @NonNull
@@ -29,6 +44,6 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return CATEGORY_NAMES[position];
+        return CATEGORY_NAMES.get(position);
     }
 }
