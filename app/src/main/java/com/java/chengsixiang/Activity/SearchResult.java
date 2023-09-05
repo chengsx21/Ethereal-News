@@ -1,6 +1,6 @@
-package com.java.chengsixiang;
+package com.java.chengsixiang.Activity;
 
-import static com.java.chengsixiang.utils.QueryHelper.getTimeBefore;
+import static com.java.chengsixiang.Utils.QueryHelper.getTimeBefore;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,26 +14,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.java.chengsixiang.utils.NewsAdapter;
-import com.java.chengsixiang.utils.NewsItem;
-import com.java.chengsixiang.utils.QueryHelper;
-import com.java.chengsixiang.utils.ListScrollListener;
+import com.java.chengsixiang.R;
+import com.java.chengsixiang.Adapter.NewsAdapter;
+import com.java.chengsixiang.Utils.NewsItem;
+import com.java.chengsixiang.Utils.QueryHelper;
+import com.java.chengsixiang.Utils.ScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ResultActivity extends AppCompatActivity {
+public class SearchResult extends AppCompatActivity {
     private String words;
     private String startDate;
     private String endDate;
     private String categories;
-    private String mEndDate;
-    private Context mContext;
+    private String realEndDate;
+    private Context context;
     private LinearLayoutManager layoutManager;
     private NewsAdapter newsAdapter;
     private final QueryHelper queryHelper = new QueryHelper();
-    private boolean mFullLoaded = false;
+    private boolean loaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private void initParams() {
-        mContext = this;
+        context = this;
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.news_result_toolbar);
         Bundle bundle = this.getIntent().getExtras();
@@ -67,14 +68,14 @@ public class ResultActivity extends AppCompatActivity {
 
     private void setRecycleView() {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        newsAdapter = new NewsAdapter(mContext, new ArrayList<>());
+        newsAdapter = new NewsAdapter(context, new ArrayList<>());
         recyclerView.setAdapter(newsAdapter);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addOnScrollListener(new ListScrollListener(layoutManager) {
+        recyclerView.addOnScrollListener(new ScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                if (!mFullLoaded)
+                if (!loaded)
                     loadNewsForCategory(categories, newsAdapter);
             }
         });
@@ -86,9 +87,9 @@ public class ResultActivity extends AppCompatActivity {
             public void onSuccess(List<NewsItem> newsItems) {
                 new Handler(Looper.getMainLooper()).post(() -> {
                     if (newsItems.size() == 0)
-                        mFullLoaded = true;
+                        loaded = true;
                     else {
-                        mEndDate = getTimeBefore(newsItems.get(newsItems.size() - 1).getDate());
+                        realEndDate = getTimeBefore(newsItems.get(newsItems.size() - 1).getDate());
                         newsAdapter.setNewsItems(newsItems);
                     }
                 });
@@ -96,21 +97,21 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onFailure(String errorMessage) {
                 new Handler(Looper.getMainLooper()).post(
-                    () -> Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show()
+                    () -> Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                 );
             }
         });
     }
 
     private void loadNewsForCategory(String categoryName, NewsAdapter newsAdapter) {
-        queryHelper.queryNews("", startDate, mEndDate, words, categoryName, new QueryHelper.NewsQueryCallback() {
+        queryHelper.queryNews("", startDate, realEndDate, words, categoryName, new QueryHelper.NewsQueryCallback() {
             @Override
             public void onSuccess(List<NewsItem> newsItems) {
                 new Handler(Looper.getMainLooper()).post(() -> {
                     if (newsItems.size() == 0)
-                        mFullLoaded = true;
+                        loaded = true;
                     else {
-                        mEndDate = getTimeBefore(newsItems.get(newsItems.size() - 1).getDate());
+                        realEndDate = getTimeBefore(newsItems.get(newsItems.size() - 1).getDate());
                         newsAdapter.addNewsItems(newsItems);
                     }
                 });
@@ -118,7 +119,7 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onFailure(String errorMessage) {
                 new Handler(Looper.getMainLooper()).post(
-                    () -> Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show()
+                    () -> Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                 );
             }
         });

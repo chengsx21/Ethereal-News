@@ -1,4 +1,4 @@
-package com.java.chengsixiang;
+package com.java.chengsixiang.Activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,13 +18,14 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.java.chengsixiang.utils.NewsTouchHelper;
+import com.java.chengsixiang.R;
+import com.java.chengsixiang.Utils.CategoryHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class CategoryActivity extends AppCompatActivity {
+public class CategorySetting extends AppCompatActivity {
     private ArrayList<String> availableCategories;
     private ArrayList<String> selectedCategories;
     private RecyclerView recyclerView;
@@ -85,13 +86,13 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void setTouchHelper() {
-        ItemTouchHelper.Callback callback = new NewsTouchHelper(categoryAdapter);
+        ItemTouchHelper.Callback callback = new CategoryHelper(categoryAdapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerView);
     }
 
     private class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-            implements NewsTouchHelper.NewsTouchHelperAdapter {
+            implements CategoryHelper.CategoryHelperAdapter {
         private static final int TYPE_SELECTED_CATEGORY = 0;
         private static final int TYPE_AVAILABLE_CATEGORY = 1;
 

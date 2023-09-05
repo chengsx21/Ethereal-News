@@ -1,4 +1,4 @@
-package com.java.chengsixiang.utils;
+package com.java.chengsixiang.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,18 +14,21 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.java.chengsixiang.DetailActivity;
+import com.java.chengsixiang.Activity.NewsDetail;
 import com.java.chengsixiang.R;
+import com.java.chengsixiang.Utils.DatabaseHelper;
+import com.java.chengsixiang.Utils.GlideApp;
+import com.java.chengsixiang.Utils.NewsItem;
 
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final Context mContext;
-    private final List<NewsItem> mNews;
+    private final Context context;
+    private final List<NewsItem> newsList;
 
-    public NewsAdapter(Context context, List<NewsItem> list){
-        this.mContext = context;
-        this.mNews = list;
+    public NewsAdapter(Context context, List<NewsItem> newsList){
+        this.context = context;
+        this.newsList = newsList;
     }
 
     @NonNull
@@ -37,11 +40,11 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        NewsItem newsItem = mNews.get(position);
-        ((NewsHolder) holder).tv_title.setText(newsItem.getTitle());
-        ((NewsHolder) holder).tv_title.setTextColor(mContext.getResources().getColor(R.color.newsTitleBackground));
-        ((NewsHolder) holder).tv_author.setText(newsItem.getAuthor());
-        ((NewsHolder) holder).tv_date.setText(newsItem.getDate());
+        NewsItem newsItem = newsList.get(position);
+        ((NewsHolder) holder).title.setText(newsItem.getTitle());
+        ((NewsHolder) holder).title.setTextColor(context.getResources().getColor(R.color.newsTitleBackground));
+        ((NewsHolder) holder).author.setText(newsItem.getAuthor());
+        ((NewsHolder) holder).date.setText(newsItem.getDate());
         String imageUrl = newsItem.getImageUrl();
         String videoUrl = newsItem.getVideoUrl();
 
@@ -51,11 +54,11 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void setNewsTitle(NewsHolder holder, String newsID) {
-        try (DatabaseHelper dbHelper = new DatabaseHelper(mContext)) {
+        try (DatabaseHelper dbHelper = new DatabaseHelper(context)) {
             if (dbHelper.isNewsIDExistsInHistory(newsID))
-                holder.tv_title.setTextColor(mContext.getResources().getColor(R.color.newsReadTitleBackground));
+                holder.title.setTextColor(context.getResources().getColor(R.color.newsReadTitleBackground));
             else
-                holder.tv_title.setTextColor(mContext.getResources().getColor(R.color.newsTitleBackground));
+                holder.title.setTextColor(context.getResources().getColor(R.color.newsTitleBackground));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,22 +66,22 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private void setImageAndVideo(NewsHolder holder, String imageUrl, String videoUrl) {
         if (!videoUrl.equals("")) {
-            holder.vv.setVisibility(View.VISIBLE);
-            holder.vv.setVideoPath(videoUrl);
-            MediaController mediaController = new MediaController(mContext);
-            mediaController.setAnchorView(holder.vv);
-            holder.vv.setMediaController(mediaController);
-            holder.vv.requestFocus();
+            holder.videoView.setVisibility(View.VISIBLE);
+            holder.videoView.setVideoPath(videoUrl);
+            MediaController mediaController = new MediaController(context);
+            mediaController.setAnchorView(holder.videoView);
+            holder.videoView.setMediaController(mediaController);
+            holder.videoView.requestFocus();
         } else {
-            holder.vv.setVisibility(View.GONE);
+            holder.videoView.setVisibility(View.GONE);
             if (imageUrl.equals(""))
-                holder.iv.setVisibility(View.GONE);
+                holder.imageView.setVisibility(View.GONE);
             else {
-                holder.iv.setVisibility(View.VISIBLE);
-                GlideApp.with(mContext)
+                holder.imageView.setVisibility(View.VISIBLE);
+                GlideApp.with(context)
                         .load(imageUrl)
                         .centerCrop() // 缩放类型
-                        .into(holder.iv);
+                        .into(holder.imageView);
             }
         }
     }
@@ -86,7 +89,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void setClickItem(NewsHolder holder, NewsItem newsItem) {
         holder.itemView.setClickable(true);
         holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(mContext, DetailActivity.class);
+            Intent intent = new Intent(context, NewsDetail.class);
             Bundle bundle = new Bundle();
             bundle.putString("title", newsItem.getTitle());
             bundle.putString("content", newsItem.getContent());
@@ -96,41 +99,41 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             bundle.putString("videoUrl", newsItem.getVideoUrl());
             bundle.putString("newsID", newsItem.getNewsID());
             intent.putExtras(bundle);
-            holder.tv_title.setTextColor(mContext.getResources().getColor(R.color.newsReadTitleBackground));
-            mContext.startActivity(intent);
+            holder.title.setTextColor(context.getResources().getColor(R.color.newsReadTitleBackground));
+            context.startActivity(intent);
         });
     }
 
     public void setNewsItems(List<NewsItem> newNewsItems) {
-        mNews.clear();
-        mNews.addAll(newNewsItems);
+        newsList.clear();
+        newsList.addAll(newNewsItems);
         notifyDataSetChanged();
     }
 
     public void addNewsItems(List<NewsItem> newNewsItems) {
-        mNews.addAll(newNewsItems);
+        newsList.addAll(newNewsItems);
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return mNews.size();
+        return newsList.size();
     }
 
     static class NewsHolder extends RecyclerView.ViewHolder{
-        TextView tv_title;
-        TextView tv_author;
-        TextView tv_date;
-        ImageView iv;
-        VideoView vv;
+        TextView title;
+        TextView author;
+        TextView date;
+        ImageView imageView;
+        VideoView videoView;
 
         public NewsHolder(View itemView) {
             super(itemView);
-            tv_title = itemView.findViewById(R.id.news_item_title);
-            tv_author = itemView.findViewById(R.id.news_item_author);
-            tv_date = itemView.findViewById(R.id.news_item_date);
-            iv = itemView.findViewById(R.id.news_item_image);
-            vv = itemView.findViewById(R.id.news_item_video);
+            title = itemView.findViewById(R.id.news_item_title);
+            author = itemView.findViewById(R.id.news_item_author);
+            date = itemView.findViewById(R.id.news_item_date);
+            imageView = itemView.findViewById(R.id.news_item_image);
+            videoView = itemView.findViewById(R.id.news_item_video);
         }
     }
 }

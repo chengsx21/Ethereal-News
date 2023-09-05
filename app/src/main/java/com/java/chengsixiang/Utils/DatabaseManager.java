@@ -1,4 +1,4 @@
-package com.java.chengsixiang.utils;
+package com.java.chengsixiang.Utils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

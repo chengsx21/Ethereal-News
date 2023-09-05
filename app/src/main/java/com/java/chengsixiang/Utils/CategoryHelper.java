@@ -1,19 +1,19 @@
-package com.java.chengsixiang.utils;
+package com.java.chengsixiang.Utils;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class NewsTouchHelper extends ItemTouchHelper.Callback {
-    public interface NewsTouchHelperAdapter {
+public class CategoryHelper extends ItemTouchHelper.Callback {
+    public interface CategoryHelperAdapter {
         void onItemMove(int fromPosition, int toPosition);
         void onItemDismiss(int position);
     }
 
-    private final NewsTouchHelperAdapter mAdapter;
+    private final CategoryHelperAdapter adapter;
 
-    public NewsTouchHelper(NewsTouchHelperAdapter mAdapter) {
-        this.mAdapter = mAdapter;
+    public CategoryHelper(CategoryHelperAdapter adapter) {
+        this.adapter = adapter;
     }
 
     @Override
@@ -25,13 +25,13 @@ public class NewsTouchHelper extends ItemTouchHelper.Callback {
 
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        mAdapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        adapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
         return true;
     }
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+        adapter.onItemDismiss(viewHolder.getAdapterPosition());
     }
 
     @Override
