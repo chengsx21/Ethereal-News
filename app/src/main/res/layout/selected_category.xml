@@ -19,10 +19,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/ic_category"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:src="@drawable/ic_category" />
 
     <TextView
         android:id="@+id/category_text"
@@ -32,9 +29,6 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="8dp"
         android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/item_list_menu_imageView"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:textSize="18sp" />
 
 </LinearLayout>
