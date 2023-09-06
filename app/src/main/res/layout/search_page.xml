@@ -34,7 +34,8 @@
             android:background="@drawable/ic_search_background"
             android:orientation="horizontal"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:paddingRight="10dp"
+            android:layout_marginRight="10dp">
 
             <ImageView
                 android:id="@+id/searchIcon"
@@ -55,6 +56,20 @@
 
         </LinearLayout>
 
+        <Spinner
+            android:id="@+id/news_category_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/news_categories"
+            android:layout_gravity="end"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_spinner_background"
+            tools:ignore="TouchTargetSizeCheck" />
+
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
@@ -64,36 +79,6 @@
         android:padding="16dp"
         android:gravity="center_horizontal"
         android:layout_weight="1">
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/ic_card_background">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/search_categories"
-                android:textStyle="bold"
-                android:textColor="@color/newsTitleBackground"
-                android:textSize="18sp" />
-
-            <Spinner
-                android:id="@+id/news_category_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/news_categories"
-                android:layout_gravity="center_horizontal"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:background="@drawable/ic_spinner_background"
-                tools:ignore="TouchTargetSizeCheck" />
-        </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
