@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
@@ -61,6 +62,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 holder.title.setTextColor(context.getResources().getColor(R.color.newsTitleBackground));
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(context, "读取本地数据库失败", Toast.LENGTH_SHORT).show();
         }
     }
 

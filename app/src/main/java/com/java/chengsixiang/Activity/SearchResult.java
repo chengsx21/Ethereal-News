@@ -106,7 +106,7 @@ public class SearchResult extends AppCompatActivity {
             @Override
             public void onFailure(String errorMessage) {
                 new Handler(Looper.getMainLooper()).post(
-                    () -> Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                    () -> Toast.makeText(context, "请检查网络连接", Toast.LENGTH_SHORT).show()
                 );
                 loadingBar.setVisibility(ProgressBar.GONE);
             }
@@ -129,7 +129,7 @@ public class SearchResult extends AppCompatActivity {
             @Override
             public void onFailure(String errorMessage) {
                 new Handler(Looper.getMainLooper()).post(
-                    () -> Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                    () -> Toast.makeText(context, "请检查网络连接", Toast.LENGTH_SHORT).show()
                 );
             }
         });
