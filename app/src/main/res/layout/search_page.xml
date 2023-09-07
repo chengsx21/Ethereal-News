@@ -18,92 +18,114 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
-            android:contentDescription="@string/back_button"
-            android:src="@drawable/ic_back"
-            tools:ignore="TouchTargetSizeCheck"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/ic_search_background"
-            android:orientation="horizontal"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_marginRight="10dp">
-
-            <ImageView
-                android:id="@+id/searchIcon"
-                android:layout_width="match_parent"
+            <ImageButton
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_search_detail"
-                android:contentDescription="@string/search_button" />
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/back_button"
+                android:src="@drawable/ic_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TouchTargetSizeCheck" />
 
-            <EditText
-                android:id="@+id/search_text"
-                android:layout_width="240dp"
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:hint="@string/hint"
-                android:inputType="text"
-                tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/ic_search_background"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/news_category_spinner"
+                app:layout_constraintStart_toEndOf="@+id/back_button"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/searchIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/search_button"
+                    android:src="@drawable/ic_search_detail" />
 
-        <Spinner
-            android:id="@+id/news_category_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/news_categories"
-            android:layout_gravity="end"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/ic_spinner_background"
-            tools:ignore="TouchTargetSizeCheck" />
+                <EditText
+                    android:id="@+id/search_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:hint="@string/hint"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/news_category_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/ic_spinner_background"
+                android:entries="@array/news_categories"
+                android:paddingLeft="15dp"
+                android:paddingTop="10dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TouchTargetSizeCheck" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="16dp"
-        android:gravity="center_horizontal"
-        android:layout_weight="1">
+        tools:visibility="visible">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/ic_card_background">
+            android:background="@drawable/ic_card_background"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/start_time"
-                android:textStyle="bold"
                 android:textColor="@color/newsTitleBackground"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -143,35 +165,35 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/default_start_time"
-                android:textStyle="bold"
-                android:textColor="@color/newsContentBackground"/>
+                android:textColor="@color/newsContentBackground"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/ic_card_background">
+            android:background="@drawable/ic_card_background"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/end_time"
-                android:textStyle="bold"
                 android:textColor="@color/newsTitleBackground"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -209,8 +231,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/default_end_time"
-                android:textStyle="bold"
-                android:textColor="@color/newsContentBackground"/>
+                android:textColor="@color/newsContentBackground"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
