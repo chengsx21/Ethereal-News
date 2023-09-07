@@ -67,6 +67,7 @@ public class NewsDetail extends Activity {
             dbHelper.close();
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(this, "读取本地数据库失败", Toast.LENGTH_SHORT).show();
         }
     }
 

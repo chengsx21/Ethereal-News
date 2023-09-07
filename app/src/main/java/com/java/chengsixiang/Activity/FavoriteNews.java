@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,6 +48,7 @@ public class FavoriteNews extends AppCompatActivity {
             newsCount.setText(String.format("您一共收藏了%d条新闻:", newsItems.size()));
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(context, "读取本地数据库失败", Toast.LENGTH_SHORT).show();
         }
     }
 

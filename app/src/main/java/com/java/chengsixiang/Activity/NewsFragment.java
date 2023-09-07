@@ -105,7 +105,7 @@ public class NewsFragment extends Fragment {
             @Override
             public void onFailure(String errorMessage) {
                 new Handler(Looper.getMainLooper()).post(
-                    () -> Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                    () -> Toast.makeText(getContext(), "请检查网络连接", Toast.LENGTH_SHORT).show()
                 );
             }
         });
@@ -128,7 +128,7 @@ public class NewsFragment extends Fragment {
             @Override
             public void onFailure(String errorMessage) {
                 new Handler(Looper.getMainLooper()).post(
-                    () -> Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                    () -> Toast.makeText(getContext(), "请检查网络连接", Toast.LENGTH_SHORT).show()
                 );
             }
         });
