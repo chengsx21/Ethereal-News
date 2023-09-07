@@ -34,6 +34,7 @@ public class NewsFragment extends Fragment {
     private boolean loaded;
     private View rootView;
     private ProgressBar progressBar;
+    private ProgressBar loadingBar;
     private NewsAdapter newsAdapter;
     private ScrollListener newsScrollListener;
 
@@ -51,8 +52,10 @@ public class NewsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.news_fragment, container, false);
         categoryName = PagerAdapter.CATEGORY_NAMES.get(requireArguments().getInt("position"));
         progressBar = rootView.findViewById(R.id.progress_bar);
+        loadingBar = rootView.findViewById(R.id.loading_bar);
         setRecyclerView();
         setSwipeRefreshView();
+        loadingBar.setVisibility(View.VISIBLE);
         initNewsForCategory();
         return rootView;
     }
@@ -91,11 +94,12 @@ public class NewsFragment extends Fragment {
         QueryHelper queryHelper = new QueryHelper();
         queryHelper.queryNews("", "", "", "", categoryName, new QueryHelper.NewsQueryCallback() {
             @Override
-            public void onSuccess(List<NewsItem> newsItems) {
+            public void onSuccess(List<NewsItem> newsItems, int newsCount) {
                 new Handler(Looper.getMainLooper()).post(() -> {
                     endDate = getTimeBefore(newsItems.get(newsItems.size() - 1).getDate());
                     newsAdapter.setNewsItems(newsItems);
                     newsScrollListener.resetLoadState();
+                    loadingBar.setVisibility(View.GONE);
                 });
             }
             @Override
@@ -111,7 +115,7 @@ public class NewsFragment extends Fragment {
         QueryHelper queryHelper = new QueryHelper();
         queryHelper.queryNews("", "", endDate, "", categoryName, new QueryHelper.NewsQueryCallback() {
             @Override
-            public void onSuccess(List<NewsItem> newsItems) {
+            public void onSuccess(List<NewsItem> newsItems, int newsCount) {
                 new Handler(Looper.getMainLooper()).post(() -> {
                     if (newsItems.size() == 0)
                         loaded = true;

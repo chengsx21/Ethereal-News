@@ -9,10 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.java.chengsixiang.R;
 import com.java.chengsixiang.Adapter.NewsAdapter;
-import com.java.chengsixiang.Utils.NewsItem;
+import com.java.chengsixiang.R;
 import com.java.chengsixiang.Utils.DatabaseHelper;
+import com.java.chengsixiang.Utils.NewsItem;
 import com.java.chengsixiang.Utils.ScrollListener;
 
 import java.util.ArrayList;
@@ -38,10 +38,13 @@ public class HistoryRecord extends AppCompatActivity {
 
     private void initParams() {
         context = this;
+        TextView newsCount = findViewById(R.id.news_count);
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.news_history_toolbar);
         try (DatabaseHelper dbHelper = new DatabaseHelper(context)) {
             newsItems = dbHelper.getHistoryRecord();
+            newsCount.setVisibility(TextView.VISIBLE);
+            newsCount.setText(String.format("您一共浏览了%d条新闻:", newsItems.size()));
         } catch (Exception e) {
             e.printStackTrace();
         }
