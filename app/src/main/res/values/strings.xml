@@ -21,7 +21,7 @@
     <string name="news_setting_toolbar">频道设置</string>
     <string name="settings_instruction">滑动删除频道, 点击加号添加频道, 长按自由排序</string>
     <string name="search_categories">搜索类别:</string>
-    <string name="hint">Ethereal, 发现每一种可能!</string>
+    <string name="hint">Ethereal, 启动!</string>
     <string name="start_time">起始搜索时间:</string>
     <string name="end_time">截止搜索时间:</string>
     <string name="choose_date">选择日期</string>
