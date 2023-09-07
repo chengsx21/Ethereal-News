@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,8 @@ public class SearchResult extends AppCompatActivity {
     private Context context;
     private LinearLayoutManager layoutManager;
     private NewsAdapter newsAdapter;
+    private TextView newsCount;
+    private ProgressBar loadingBar;
     private final QueryHelper queryHelper = new QueryHelper();
     private boolean loaded = false;
 
@@ -48,6 +51,9 @@ public class SearchResult extends AppCompatActivity {
 
     private void initParams() {
         context = this;
+        loadingBar = findViewById(R.id.loading_bar);
+        loadingBar.setVisibility(ProgressBar.VISIBLE);
+        newsCount = findViewById(R.id.news_count);
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.news_result_toolbar);
         Bundle bundle = this.getIntent().getExtras();
@@ -84,7 +90,7 @@ public class SearchResult extends AppCompatActivity {
     private void initNewsForCategory(String categoryName, NewsAdapter newsAdapter) {
         queryHelper.queryNews("", startDate, endDate, words, categoryName, new QueryHelper.NewsQueryCallback() {
             @Override
-            public void onSuccess(List<NewsItem> newsItems) {
+            public void onSuccess(List<NewsItem> newsItems, int newsCount) {
                 new Handler(Looper.getMainLooper()).post(() -> {
                     if (newsItems.size() == 0)
                         loaded = true;
@@ -92,6 +98,9 @@ public class SearchResult extends AppCompatActivity {
                         realEndDate = getTimeBefore(newsItems.get(newsItems.size() - 1).getDate());
                         newsAdapter.setNewsItems(newsItems);
                     }
+                    SearchResult.this.newsCount.setVisibility(TextView.VISIBLE);
+                    SearchResult.this.newsCount.setText(String.format("为您检索到了%d条新闻:", newsCount));
+                    loadingBar.setVisibility(ProgressBar.GONE);
                 });
             }
             @Override
@@ -99,6 +108,7 @@ public class SearchResult extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(
                     () -> Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                 );
+                loadingBar.setVisibility(ProgressBar.GONE);
             }
         });
     }
@@ -106,7 +116,7 @@ public class SearchResult extends AppCompatActivity {
     private void loadNewsForCategory(String categoryName, NewsAdapter newsAdapter) {
         queryHelper.queryNews("", startDate, realEndDate, words, categoryName, new QueryHelper.NewsQueryCallback() {
             @Override
-            public void onSuccess(List<NewsItem> newsItems) {
+            public void onSuccess(List<NewsItem> newsItems, int newsCount) {
                 new Handler(Looper.getMainLooper()).post(() -> {
                     if (newsItems.size() == 0)
                         loaded = true;

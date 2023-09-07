@@ -38,10 +38,13 @@ public class FavoriteNews extends AppCompatActivity {
 
     private void initParams() {
         context = this;
+        TextView newsCount = findViewById(R.id.news_count);
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.news_favorite_toolbar);
         try (DatabaseHelper dbHelper = new DatabaseHelper(context)) {
             newsItems = dbHelper.getFavoriteRecord();
+            newsCount.setVisibility(TextView.VISIBLE);
+            newsCount.setText(String.format("您一共收藏了%d条新闻:", newsItems.size()));
         } catch (Exception e) {
             e.printStackTrace();
         }

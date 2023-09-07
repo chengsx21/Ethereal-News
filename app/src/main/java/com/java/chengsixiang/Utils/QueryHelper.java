@@ -1,6 +1,7 @@
 package com.java.chengsixiang.Utils;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -20,7 +21,7 @@ import okhttp3.Response;
 public class QueryHelper {
     private final OkHttpClient client = new OkHttpClient();
     public interface NewsQueryCallback {
-        void onSuccess(List<NewsItem> newsItems);
+        void onSuccess(List<NewsItem> newsItems, int newsCount);
         void onFailure(String errorMessage);
     }
 
@@ -51,6 +52,7 @@ public class QueryHelper {
                     String resData = Objects.requireNonNull(response.body()).string();
                     JsonParser jsonParser = new JsonParser();
                     JsonObject jsonObject = jsonParser.parse(resData).getAsJsonObject();
+                    int newsCount = jsonObject.get("total").getAsInt();
                     JsonArray dataArray = jsonObject.getAsJsonArray("data");
 
                     List<NewsItem> newsItems = new ArrayList<>();
@@ -60,7 +62,12 @@ public class QueryHelper {
                         String content = newsObject.get("content").getAsString();
                         String date = newsObject.get("publishTime").getAsString();
                         String author = newsObject.get("publisher").getAsString();
-                        String imageUrlArray = newsObject.get("image").getAsString();
+                        String imageUrlArray;
+                        JsonElement imageElement = newsObject.get("image");
+                        if (imageElement.isJsonArray())
+                            imageUrlArray = imageElement.getAsJsonArray().toString();
+                        else
+                            imageUrlArray = imageElement.getAsString();
                         String imageUrl = decodeImageUrl(imageUrlArray);
                         String videoUrl = newsObject.get("video").getAsString();
                         String newsID = newsObject.get("newsID").getAsString();
@@ -68,7 +75,7 @@ public class QueryHelper {
                         newsItems.add(newsItem);
                     }
                     if (callback != null)
-                        callback.onSuccess(newsItems);
+                        callback.onSuccess(newsItems, newsCount);
                 } else {
                     if (callback != null)
                         callback.onFailure("Failed to get news data");
