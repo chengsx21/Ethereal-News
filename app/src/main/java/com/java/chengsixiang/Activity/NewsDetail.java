@@ -1,7 +1,9 @@
 package com.java.chengsixiang.Activity;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -10,6 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.java.chengsixiang.R;
 import com.java.chengsixiang.Utils.GlideApp;
 import com.java.chengsixiang.Utils.DatabaseHelper;
@@ -96,7 +102,18 @@ public class NewsDetail extends Activity {
                 mImage.setVisibility(View.VISIBLE);
                 GlideApp.with(this)
                         .load(imageUrl)
-                        .centerCrop() // 缩放类型
+                        .centerCrop()
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                mImage.setVisibility(View.GONE);
+                                return false;
+                            }
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                return false;
+                            }
+                        })
                         .into(mImage);
             }
         }

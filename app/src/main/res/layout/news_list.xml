@@ -23,7 +23,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
-            android:contentDescription="@string/back_button"
             android:src="@drawable/ic_back"
             tools:ignore="TouchTargetSizeCheck"/>
 
@@ -31,9 +30,8 @@
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/news_toolbar"
             android:textStyle="bold"
-            android:textColor="@color/appNameBackground"
+            android:textColor="@color/toolbarTitle"
             android:textSize="18sp"
             android:layout_gravity="center_horizontal"/>
 
@@ -63,7 +61,7 @@
             android:layout_height="80dp"
             android:padding="8dp"
             android:layout_gravity="center"
-            android:indeterminateTint="@color/newsLoadingBackground"
+            android:indeterminateTint="@color/newsLoading"
             android:background="@drawable/ic_loading_background"
             android:visibility="gone" />
 

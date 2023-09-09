@@ -30,7 +30,7 @@
         android:layout_height="40dp"
         android:padding="8dp"
         android:layout_gravity="bottom|center_horizontal"
-        android:indeterminateTint="@color/newsLoadingBackground"
+        android:indeterminateTint="@color/newsLoading"
         android:background="@drawable/ic_loading_background"
         android:visibility="gone" />
 
@@ -40,8 +40,8 @@
         android:layout_height="80dp"
         android:padding="8dp"
         android:layout_gravity="center"
-        android:indeterminateTint="@color/newsLoadingBackground"
-        android:background="@drawable/ic_loading_background"
+        android:indeterminateTint="@color/newsLoadingTransparent"
+        android:background="@mipmap/ic_launcher_foreground"
         android:visibility="gone" />
 
 </FrameLayout>
