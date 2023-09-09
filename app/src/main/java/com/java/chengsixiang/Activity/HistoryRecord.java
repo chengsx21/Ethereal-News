@@ -45,7 +45,7 @@ public class HistoryRecord extends AppCompatActivity {
         try (DatabaseHelper dbHelper = new DatabaseHelper(context)) {
             newsItems = dbHelper.getHistoryRecord();
             newsCount.setVisibility(TextView.VISIBLE);
-            newsCount.setText(String.format("您一共浏览了%d条新闻:", newsItems.size()));
+            newsCount.setText(getString(R.string.history_result) + newsItems.size() + getString(R.string.news_count));
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, "读取本地数据库失败", Toast.LENGTH_SHORT).show();

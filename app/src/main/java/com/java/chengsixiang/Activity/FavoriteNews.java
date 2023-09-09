@@ -45,7 +45,7 @@ public class FavoriteNews extends AppCompatActivity {
         try (DatabaseHelper dbHelper = new DatabaseHelper(context)) {
             newsItems = dbHelper.getFavoriteRecord();
             newsCount.setVisibility(TextView.VISIBLE);
-            newsCount.setText(String.format("您一共收藏了%d条新闻:", newsItems.size()));
+            newsCount.setText(getString(R.string.favorite_result) + newsItems.size() + getString(R.string.news_count));
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, "读取本地数据库失败", Toast.LENGTH_SHORT).show();

@@ -39,8 +39,7 @@
             android:layout_alignParentTop="true"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="@string/news_title"
-            android:textColor="@color/newsTitleBackground"
+            android:textColor="@color/newsTitle"
             android:textSize="16sp"
             android:textStyle="bold"
             tools:ignore="TextSizeCheck" />
@@ -52,8 +51,7 @@
             android:layout_alignParentBottom="true"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@string/news_author"
-            android:textColor="@color/newsAuthorBackground"
+            android:textColor="@color/newsAuthor"
             android:textSize="12sp"
             android:textStyle="italic"
             tools:ignore="TextSizeCheck" />
@@ -66,8 +64,7 @@
             android:layout_alignParentBottom="true"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@string/news_date"
-            android:textColor="@color/newsAuthorBackground"
+            android:textColor="@color/newsAuthor"
             android:textSize="12sp"
             android:textStyle="italic"
             tools:ignore="RelativeOverlap" />

@@ -99,7 +99,7 @@ public class SearchResult extends AppCompatActivity {
                         newsAdapter.setNewsItems(newsItems);
                     }
                     SearchResult.this.newsCount.setVisibility(TextView.VISIBLE);
-                    SearchResult.this.newsCount.setText(String.format("为您检索到了%d条新闻:", newsCount));
+                    SearchResult.this.newsCount.setText(getString(R.string.search_result) + newsCount + getString(R.string.news_count));
                     loadingBar.setVisibility(ProgressBar.GONE);
                 });
             }

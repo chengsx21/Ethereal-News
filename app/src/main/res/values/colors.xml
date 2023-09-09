@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorBackground">#f9f9fa</color>
-    <color name="appNameBackground">#ffffff</color>
+    <color name="appPrimaryColor">#0055FF</color>
+    <color name="categoryAvailable">#99F8F8F8</color>
+    <color name="categorySelected">#CC0055FF</color>
     <color name="launcherBackground">#0A4774</color>
-    <color name="newsTitleBackground">#121212</color>
-    <color name="newsReadTitleBackground">#8E8C8C</color>
-    <color name="newsAuthorBackground">#bfbfbf</color>
-    <color name="newsDateBackground">#bfbfbf</color>
-    <color name="newsContentBackground">#000000</color>
-    <color name="newsSpinnerBackground">#ffffff</color>
-    <color name="categoryDelBackground">#ffffff</color>
-    <color name="categoryBackground">#aae8e8e8</color>
-    <color name="newsLoadingBackground">#000000</color>
+    <color name="newsTitle">#121212</color>
+    <color name="newsTitleAfter">#8E8C8C</color>
+    <color name="newsAuthor">#bfbfbf</color>
+    <color name="newsDate">#bfbfbf</color>
+    <color name="newsContent">#000000</color>
+    <color name="newsSpinner">#ffffff</color>
+    <color name="newsLoading">#000000</color>
+    <color name="newsLoadingTransparent">#00FFFFFF</color>
+    <color name="toolbarTitle">#ffffff</color>
 </resources>
