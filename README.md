@@ -101,20 +101,24 @@
     使用 **Calendar** 类提供时间选择表盘, 记录用户选择的时间; 使用 **Spinner** 提供选择新闻类别, 并将获取的参数传入搜索 **api** 进行新闻获取.
 
     <div style="display: flex; justify-content: center;">
-    	<img src="./pic/loading.png" style="width: 33%; margin: 5px;">
-      <img src="./pic/pulldown.png" style="width: 33%; margin: 5px;">
-      <img src="./pic/pullup.png" style="width: 33%; margin: 5px;">
+    	<img src="./pic/spinner.png" style="width: 33%; margin: 5px;">
+      <img src="./pic/date.png" style="width: 33%; margin: 5px;">
+      <img src="./pic/time.png" style="width: 33%; margin: 5px;">
     </div>
 
 + `Activity/SearchResult.java`
 
-    为 **RecyclerView** 继承实现 **OnScrollListener** 监听滑动事件, 当滑动到底部时, 使用 **ProgressBar** 展示加载动画, 并通过 **api** 加载更多新闻.
+    展示了搜索结果数, 并为 **RecyclerView** 继承实现 **OnScrollListener** 监听滑动事件, 当滑动到底部时, 使用 **ProgressBar** 展示加载动画, 并通过 **api** 加载更多新闻.
+    
+    <img src="./pic/result.png" style="zoom:15%;" />
 
 ### 列表分类 (10’)
 
 + `Activity/CategorySetting.java`
 
-    使用 **RecyclerView** 记录已选分类以及可用分类, 使用不同 XML 布局展示其样式. 通过点击加号将分类添加, 通过左滑或右滑删除已选分类. 将设置完成的分类保存到 **SharedPreference** 内, 允许 **ViewPager** 加载并展示在主页面内. 通过 **onActivityResult()** 设置特别的 **requestCode** 与 **resultCode**, 允许从 **CategorySetting** 返回后即刻更新主页新闻 **tab**.
+    使用 **RecyclerView** 记录已选分类以及可用分类, 使用不同 XML 布局展示其样式. 通过点击加号将分类添加, 通过左滑或右滑删除已选分类. 将设置完成的分类保存到 **SharedPreference** 内, 允许 **ViewPager** 加载并展示在主页面内. 通过 **onActivityResult** 设置特定的 **requestCode** 与 **resultCode**, 允许从 **CategorySetting** 返回后 **HomePage** 即刻更新主页新闻 **tab**.
+
+    <img src="./pic/category.gif" style="zoom:15%;" />
 
 + `Utils/CategoryHelper.java`
 
@@ -127,12 +131,16 @@
 + `Activity/NewsDetail.java`
 
     定义了新闻详情页布局, 将新闻获取接口中返回的 **publishTime** 与 **publisher** 直接展示在详情页.
+    
+    <img src="./pic/detail.png" style="zoom:15%;" />
 
 #### 正确播放视频 (5’)
 
 + `Activity/NewsDetail.java`
 
     定义了新闻详情页布局, 使用 **MediaController** 类加载视频 **url** 并播放.
+    
+    
 
 ### 本地记录 (20’)
 
