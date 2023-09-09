@@ -61,8 +61,8 @@
             android:layout_height="80dp"
             android:padding="8dp"
             android:layout_gravity="center"
-            android:indeterminateTint="@color/newsLoading"
-            android:background="@drawable/ic_loading_background"
+            android:indeterminateTint="@color/newsLoadingTransparent"
+            android:background="@mipmap/ic_launcher_foreground"
             android:visibility="gone" />
 
     </FrameLayout>

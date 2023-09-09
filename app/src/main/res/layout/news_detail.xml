@@ -62,15 +62,15 @@
             <ImageView
                 android:id="@+id/news_detail_image"
                 android:layout_width="match_parent"
-                android:layout_height="230dp"
-                android:scaleType="centerCrop"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
                 android:visibility="gone" />
 
             <VideoView
                 android:id="@+id/news_detail_video"
                 android:layout_width="match_parent"
-                android:layout_height="230dp"
-                android:scaleType="centerCrop"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
                 android:visibility="gone" />
 
             <TextView

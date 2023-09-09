@@ -42,7 +42,9 @@
 
 + `Activity/HomePage.java`
 
-    使用 **TabLayout** 与 **ViewPager** 用于加载不同类别的新闻页, 并实现多 **tab** 切换.
+    使用 **TabLayout** 与 **ViewPager** 实现多 **tab** 切换不同类别新闻页.
+
+    <img src="./pic/tab.png" style="zoom:15%;" />
 
 + `Activity/NewsFragment.java`
 
@@ -62,11 +64,11 @@
 
 + `Utils/NewsItem.java`
 
-    定义新闻类, 使用 **String** 类记录一条新闻的所有元信息.
+    定义新闻类, 记录一条新闻的所有元信息, 使用 **newsID** 作为唯一性约束.
 
 + `Utils/QueryHelper.java`
 
-    使用 **okhttp3** 库异步处理网络请求. 注意到新闻接口给出了 **page** 参数, 但是使用过程中观察到如果 **page * pageSize** 大于 **10000** 后, 接口会返回报错. 因此对于加载更多新闻的逻辑, 我选择记录当前返回的新闻列表中最后一项新闻的发布时间, 将其前一秒传入 **endDate** 构造新 **url** 来获取更多新闻.
+    使用 **okhttp3** 库异步处理网络请求. 注意到新闻接口给出了 **page** 参数, 但是使用过程中观察到如果 **page * pageSize** 大于 **10000** 后, 接口会返回报错. 因此对于加载更多新闻的逻辑, 我选择记录当前返回的新闻列表中最后一项新闻的发布时间, 将其倒退一秒并传入 **endDate**, 构造新 **url** 获取更多新闻.
 
 + `Utils/NewsGlide.java`
 
@@ -80,6 +82,14 @@
 
     同时为 **RecyclerView** 继承实现 **OnScrollListener** 监听滑动事件, 当滑动到底部时, 使用 **ProgressBar** 视图来展示加载动画, 并重写 **onLoadMore** 函数通过调用 **api** 加载更多新闻.
 
+    不止上拉刷新与下拉加载的动画, 我还为新闻列表的初始化提供了简易的加载界面.
+
+    <div style="display: flex; justify-content: center;">
+    	<img src="./pic/loading.png" style="width: 33%; margin: 5px;">
+      <img src="./pic/pulldown.png" style="width: 33%; margin: 5px;">
+      <img src="./pic/pullup.png" style="width: 33%; margin: 5px;">
+    </div>
+
 + `Utils/ScrollListener.java`
 
     展示了为 **RecyclerView** 监听滑动事件并加载更多新闻的实现逻辑.
@@ -88,7 +98,13 @@
 
 + `Activity/SearchPage.java`
 
-    使用 **Calendar** 记录用户选择的时间, 使用 **Spinner** 提供选择新闻类别, 将获取的参数传入搜索 **api** 进行新闻获取.
+    使用 **Calendar** 类提供时间选择表盘, 记录用户选择的时间; 使用 **Spinner** 提供选择新闻类别, 并将获取的参数传入搜索 **api** 进行新闻获取.
+
+    <div style="display: flex; justify-content: center;">
+    	<img src="./pic/loading.png" style="width: 33%; margin: 5px;">
+      <img src="./pic/pulldown.png" style="width: 33%; margin: 5px;">
+      <img src="./pic/pullup.png" style="width: 33%; margin: 5px;">
+    </div>
 
 + `Activity/SearchResult.java`
 
