@@ -88,7 +88,6 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 holder.imageView.setVisibility(View.VISIBLE);
                 GlideApp.with(context)
                         .load(imageUrl)
-                        .centerCrop()
                         .listener(new RequestListener<Drawable>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
