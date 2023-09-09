@@ -23,9 +23,8 @@
     <VideoView
         android:id="@+id/news_item_video"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="230dp"
         android:layout_marginBottom="10dp"
-        android:scaleType="fitCenter"
         android:visibility="gone" />
 
     <RelativeLayout
