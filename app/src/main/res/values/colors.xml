@@ -10,6 +10,7 @@
     <color name="newsDate">#bfbfbf</color>
     <color name="newsContent">#000000</color>
     <color name="newsSpinner">#ffffff</color>
+    <color name="newsFloatingButton">#ffffff</color>
     <color name="newsLoading">#000000</color>
     <color name="newsLoadingTransparent">#00FFFFFF</color>
     <color name="toolbarTitle">#ffffff</color>

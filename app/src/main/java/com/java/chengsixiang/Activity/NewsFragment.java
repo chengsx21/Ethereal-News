@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.java.chengsixiang.R;
 import com.java.chengsixiang.Adapter.NewsAdapter;
 import com.java.chengsixiang.Utils.NewsItem;
@@ -33,6 +34,7 @@ public class NewsFragment extends Fragment {
     private String endDate;
     private boolean loaded;
     private View rootView;
+    private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private ProgressBar loadingBar;
     private NewsAdapter newsAdapter;
@@ -55,13 +57,14 @@ public class NewsFragment extends Fragment {
         loadingBar = rootView.findViewById(R.id.loading_bar);
         setRecyclerView();
         setSwipeRefreshView();
+        setFloatingActionButton();
         loadingBar.setVisibility(View.VISIBLE);
         initNewsForCategory();
         return rootView;
     }
 
     private void setRecyclerView() {
-        RecyclerView recyclerView = rootView.findViewById(R.id.tab_recycler_view);
+        recyclerView = rootView.findViewById(R.id.tab_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         newsAdapter = new NewsAdapter(getContext(), new ArrayList<>());
@@ -86,6 +89,15 @@ public class NewsFragment extends Fragment {
         refreshLayout.setOnRefreshListener(() -> {
             initNewsForCategory();
             refreshLayout.setRefreshing(false);
+        });
+    }
+
+    private void setFloatingActionButton() {
+        FloatingActionButton scrollToTopButton = rootView.findViewById(R.id.floating_action_button);
+        scrollToTopButton.setOnClickListener(v -> {
+            if (recyclerView != null) {
+                recyclerView.smoothScrollToPosition(0);
+            }
         });
     }
 

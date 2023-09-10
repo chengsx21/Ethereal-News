@@ -44,4 +44,14 @@
         android:background="@mipmap/ic_launcher_foreground"
         android:visibility="gone" />
 
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_arrow_upward"
+        android:backgroundTint="@color/newsFloatingButton"
+        android:layout_margin="16dp" />
+
 </FrameLayout>
